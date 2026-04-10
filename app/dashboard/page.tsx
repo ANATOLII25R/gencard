@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import DashboardClient from "./DashboardClient";
 import { unstable_cache } from "next/cache";
 
-// ── Cached DB queries (re-validates every 30 seconds or on manual revalidation) ──
+// ── Cached DB queries (re-validates only on manual revalidation) ──
 
 const getUserProjects = unstable_cache(
   async (userId: string) =>
@@ -13,14 +13,14 @@ const getUserProjects = unstable_cache(
       orderBy: { updatedAt: "desc" },
     }),
   ["user-projects"],
-  { revalidate: 30, tags: ["projects"] }
+  { tags: ["projects"] }
 );
 
 const getUserSubscription = unstable_cache(
   async (userId: string) =>
     prisma.subscription.findUnique({ where: { userId } }),
   ["user-subscription"],
-  { revalidate: 60, tags: ["subscription"] }
+  { tags: ["subscription"] }
 );
 
 export default async function DashboardPage() {

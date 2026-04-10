@@ -136,25 +136,26 @@ export default function DashboardClient({ user, projects, plan }: DashboardClien
   // ── Nav groups ──
   const navGroups = [
     {
-      label: "ALL PAGES",
+      label: "PAGINE",
       items: [
-        { id: "dashboard",  icon: <LayoutDashboard size={16} />, label: "Dashboard",          badge: null },
-        { id: "my-designs", icon: <Folder size={16} />,          label: "My Designs",          badge: projects.length > 0 ? String(projects.length) : null },
-        { id: "templates",  icon: <Layers size={16} />,          label: "Templates",           badge: "8" },
-        { id: "products",   icon: <Package size={16} />,         label: "Products / Posters",  badge: null },
+        { id: "dashboard",  icon: <LayoutDashboard size={16} />, label: "Dashboard",         badge: null,                  badgeType: "number" },
+        { id: "my-designs", icon: <Folder size={16} />,          label: "I Miei Design",     badge: projects.length > 0 ? String(projects.length) : null, badgeType: "number" },
+        { id: "templates",  icon: <Layers size={16} />,          label: "Template",          badge: "8",                   badgeType: "number" },
+        { id: "products",   icon: <Package size={16} />,         label: "Prodotti / Poster", badge: "Nuovo",               badgeType: "new" },
       ],
     },
     {
-      label: "FEATURES",
+      label: "STRUMENTI",
       items: [
-        { id: "uploads",  icon: <UploadCloud size={16} />, label: "Upload / Assets", badge: String(ASSETS_MOCK.length) },
-        { id: "users",    icon: <Users size={16} />,       label: "Users & Teams",   badge: null },
+        { id: "uploads",       icon: <UploadCloud size={16} />, label: "Upload / Risorse",  badge: String(ASSETS_MOCK.length), badgeType: "number" },
+        { id: "users",         icon: <Users size={16} />,       label: "Team & Utenti",     badge: null,                       badgeType: "number" },
+        { id: "integrations",  icon: <Link2 size={16} />,       label: "Integrazioni API",  badge: "dot",                      badgeType: "dot" },
       ],
     },
     {
-      label: "SYSTEMS",
+      label: "SISTEMA",
       items: [
-        { id: "settings", icon: <Settings size={16} />, label: "Settings", badge: null },
+        { id: "settings", icon: <Settings size={16} />, label: "Impostazioni", badge: null, badgeType: "number" },
       ],
     },
   ];
@@ -174,62 +175,78 @@ export default function DashboardClient({ user, projects, plan }: DashboardClien
         overflow: "hidden", flexShrink: 0, zIndex: 20,
       }}>
 
-        {/* Logo */}
+        {/* ── Logo ── */}
         <div style={{
-          height: "64px", padding: "0 20px",
-          display: "flex", alignItems: "center", gap: "12px",
+          height: "64px", padding: "0 16px",
+          display: "flex", alignItems: "center", gap: "10px",
           borderBottom: `1px solid ${DS.border}`,
-          cursor: "pointer",
-        }} onClick={() => setSidebarOpen(!sidebarOpen)}>
+        }}>
           <div style={{
-            width: "36px", height: "36px", borderRadius: "10px", flexShrink: 0,
-            background: `linear-gradient(135deg, #6366f1, #8b5cf6)`,
+            width: "34px", height: "34px", borderRadius: "10px", flexShrink: 0,
+            background: `linear-gradient(135deg, #7c3aed, #6366f1)`,
             display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: `0 4px 20px rgba(99,102,241,0.4)`,
+            boxShadow: `0 4px 16px rgba(99,102,241,0.45)`,
           }}>
-            <Zap size={18} color="white" fill="white" />
+            <Zap size={17} color="white" fill="white" />
           </div>
           {sidebarOpen && (
-            <span style={{ fontSize: "16px", fontWeight: 700, whiteSpace: "nowrap", letterSpacing: "-0.01em" }}>
-              Volantino<span style={{ color: DS.accent }}>AI</span>
+            <span style={{ fontSize: "16px", fontWeight: 800, whiteSpace: "nowrap", letterSpacing: "-0.02em", flex: 1 }}>
+              Gen<span style={{ color: DS.accent }}>Card</span>
             </span>
           )}
-          {sidebarOpen && <ChevronRight size={14} color={DS.textMut} style={{ marginLeft: "auto" }} />}
+          {sidebarOpen && (
+            <button onClick={() => setSidebarOpen(false)} style={{
+              background: "none", border: "none", cursor: "pointer",
+              color: DS.textMut, display: "flex", alignItems: "center", padding: "4px",
+              borderRadius: "6px",
+            }}
+              onMouseEnter={e => (e.currentTarget.style.background = DS.card)}
+              onMouseLeave={e => (e.currentTarget.style.background = "none")}
+            >
+              <ChevronRight size={14} />
+            </button>
+          )}
+          {!sidebarOpen && (
+            <button onClick={() => setSidebarOpen(true)} style={{
+              background: "none", border: "none", cursor: "pointer", color: DS.textMut,
+              display: "flex", alignItems: "center", margin: "0 auto",
+            }}>
+              <Menu size={16} />
+            </button>
+          )}
         </div>
 
-        {/* Search */}
-        {sidebarOpen && (
-          <div style={{ padding: "16px 16px 0" }}>
-            <div style={{
-              display: "flex", alignItems: "center", gap: "8px",
-              background: DS.card, border: `1px solid ${DS.border}`,
-              borderRadius: "8px", padding: "8px 12px",
-            }}>
-              <Search size={14} color={DS.textMut} />
+        {/* ── Search ── */}
+        <div style={{ padding: "14px 12px 0" }}>
+          <div style={{
+            display: "flex", alignItems: "center", gap: "8px",
+            background: "rgba(255,255,255,0.04)", border: `1px solid ${DS.border}`,
+            borderRadius: "8px", padding: "8px 12px",
+          }}>
+            <Search size={13} color={DS.textMut} />
+            {sidebarOpen && (
               <input
-                placeholder="Search for..."
+                placeholder="Cerca design, template..."
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
                 style={{
                   background: "transparent", border: "none", outline: "none",
-                  color: DS.textSec, fontSize: "13px", width: "100%",
+                  color: DS.textSec, fontSize: "12px", width: "100%",
                 }}
               />
-            </div>
+            )}
           </div>
-        )}
-        {!sidebarOpen && (
-          <div style={{ padding: "16px 18px 0", display: "flex", justifyContent: "center" }}>
-            <Search size={16} color={DS.textMut} />
-          </div>
-        )}
+        </div>
 
-        {/* Nav */}
-        <nav style={{ flex: 1, padding: "16px 12px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "20px" }}>
+        {/* ── Nav ── */}
+        <nav style={{ flex: 1, padding: "14px 10px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "20px" }}>
           {navGroups.map((group, gi) => (
             <div key={gi}>
               {sidebarOpen && (
-                <div style={{ fontSize: "10px", fontWeight: 700, color: DS.textMut, letterSpacing: "0.08em", padding: "0 8px 8px" }}>
+                <div style={{
+                  fontSize: "10px", fontWeight: 700, color: DS.textMut,
+                  letterSpacing: "0.1em", padding: "0 8px 6px",
+                }}>
                   {group.label}
                 </div>
               )}
@@ -239,23 +256,42 @@ export default function DashboardClient({ user, projects, plan }: DashboardClien
                   return (
                     <button key={item.id} onClick={() => setActiveTab(item.id)} style={{
                       display: "flex", alignItems: "center", gap: "10px",
-                      padding: sidebarOpen ? "9px 12px" : "9px", justifyContent: sidebarOpen ? "flex-start" : "center",
+                      padding: sidebarOpen ? "9px 12px" : "10px",
+                      justifyContent: sidebarOpen ? "flex-start" : "center",
                       borderRadius: "8px", border: "none", cursor: "pointer",
-                      background: active ? DS.accentGl : "transparent",
-                      borderLeft: active ? `2px solid ${DS.accent}` : "2px solid transparent",
+                      background: active ? `rgba(99,102,241,0.25)` : "transparent",
                       color: active ? "#fff" : DS.textSec,
                       fontSize: "13px", fontWeight: active ? 600 : 500,
                       transition: "all 0.15s", whiteSpace: "nowrap", width: "100%", textAlign: "left",
                     }}
-                      onMouseEnter={e => !active && ((e.currentTarget.style.background = DS.card), (e.currentTarget.style.color = "#fff"))}
+                      onMouseEnter={e => !active && ((e.currentTarget.style.background = "rgba(255,255,255,0.05)"), (e.currentTarget.style.color = "#fff"))}
                       onMouseLeave={e => !active && ((e.currentTarget.style.background = "transparent"), (e.currentTarget.style.color = DS.textSec))}
                     >
                       <span style={{ color: active ? DS.accent : "inherit", flexShrink: 0 }}>{item.icon}</span>
                       {sidebarOpen && <span style={{ flex: 1 }}>{item.label}</span>}
-                      {sidebarOpen && item.badge && (
-                        <span style={{ fontSize: "10px", fontWeight: 700, background: active ? DS.accent : DS.border, color: active ? "#fff" : DS.textSec, padding: "1px 6px", borderRadius: "10px" }}>
+
+                      {/* Badge rendering */}
+                      {sidebarOpen && item.badgeType === "number" && item.badge && (
+                        <span style={{
+                          fontSize: "10px", fontWeight: 700, minWidth: "18px", textAlign: "center",
+                          background: "#232B45", color: DS.textSec,
+                          padding: "1px 6px", borderRadius: "10px",
+                        }}>
                           {item.badge}
                         </span>
+                      )}
+                      {sidebarOpen && item.badgeType === "new" && (
+                        <span style={{
+                          fontSize: "9px", fontWeight: 800, letterSpacing: "0.03em",
+                          background: "rgba(16,185,129,0.15)", color: DS.green,
+                          border: `1px solid rgba(16,185,129,0.3)`,
+                          padding: "2px 7px", borderRadius: "10px",
+                        }}>
+                          Nuovo
+                        </span>
+                      )}
+                      {sidebarOpen && item.badgeType === "dot" && (
+                        <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: DS.green, flexShrink: 0 }} />
                       )}
                     </button>
                   );
@@ -265,100 +301,174 @@ export default function DashboardClient({ user, projects, plan }: DashboardClien
           ))}
         </nav>
 
-        {/* User Footer */}
-        <div style={{ borderTop: `1px solid ${DS.border}`, padding: "16px 12px" }}>
-          {sidebarOpen && (
+        {/* ── Upgrade Banner (solo Free) ── */}
+        {sidebarOpen && plan === "FREE" && (
+          <div style={{ padding: "0 12px 14px" }}>
+            <div style={{
+              borderRadius: "12px", padding: "14px",
+              background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)",
+              boxShadow: "0 4px 20px rgba(99,102,241,0.35)",
+            }}>
+              <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff", marginBottom: "4px" }}>
+                I Passa a Pro
+              </div>
+              <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.72)", marginBottom: "12px", lineHeight: 1.5 }}>
+                Sblocca design illimitati e export PDF
+              </div>
+              <button onClick={() => router.push("/prezzi")} style={{
+                background: "rgba(0,0,0,0.25)", color: "#fff", border: "1px solid rgba(255,255,255,0.2)",
+                borderRadius: "8px", padding: "6px 14px", fontSize: "12px", fontWeight: 700,
+                cursor: "pointer", transition: "all 0.2s",
+              }}
+                onMouseEnter={e => (e.currentTarget.style.background = "rgba(0,0,0,0.4)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "rgba(0,0,0,0.25)")}
+              >
+                Upgrade →
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* ── User Card ── */}
+        <div style={{ borderTop: `1px solid ${DS.border}`, padding: "12px" }}>
+          {sidebarOpen ? (
             <div style={{
               background: DS.card, border: `1px solid ${DS.border}`,
-              borderRadius: "10px", padding: "12px", marginBottom: "8px",
+              borderRadius: "10px", padding: "10px 12px",
             }}>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <div style={{
-                  width: "36px", height: "36px", borderRadius: "50%", flexShrink: 0,
-                  background: `linear-gradient(135deg, ${DS.accent}, #8b5cf6)`,
+                  width: "34px", height: "34px", borderRadius: "50%", flexShrink: 0,
+                  background: DS.green,
                   display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: "14px", fontWeight: 700, color: "#fff"
+                  fontSize: "13px", fontWeight: 800, color: "#fff",
                 }}>
                   {(user.name?.[0] || user.email?.[0] || "U").toUpperCase()}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: "13px", fontWeight: 600, color: "#fff", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {user.name || user.email}
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {user.name || user.email?.split("@")[0]}
                   </div>
-                  <div style={{ fontSize: "11px", color: PLAN_COLORS[plan], display: "flex", alignItems: "center", gap: "4px", marginTop: "2px" }}>
-                    {plan === "PRO" && <Crown size={10} />}
-                    {plan === "BUSINESS" && <Sparkles size={10} />}
+                  <div style={{ fontSize: "11px", color: DS.textMut, marginTop: "1px" }}>
                     Piano {PLAN_LABEL[plan]}
                   </div>
                 </div>
+                <button onClick={() => signOut({ callbackUrl: "/" })} style={{
+                  background: "none", border: "none", cursor: "pointer",
+                  color: DS.textMut, display: "flex", padding: "4px", borderRadius: "4px",
+                }}
+                  title="Esci"
+                  onMouseEnter={e => (e.currentTarget.style.color = DS.red)}
+                  onMouseLeave={e => (e.currentTarget.style.color = DS.textMut)}
+                >
+                  <MoreHorizontal size={14} />
+                </button>
               </div>
+
               {plan === "FREE" && (
                 <div style={{ marginTop: "10px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "11px", color: DS.textMut, marginBottom: "4px" }}>
-                    <span>Progetti</span><span style={{ color: projects.length >= 3 ? DS.red : DS.textSec }}>{projects.length} / 3</span>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px", marginBottom: "5px" }}>
+                    <span style={{ color: DS.textMut }}>Progetti usati</span>
+                    <span style={{ color: isAtLimit ? DS.red : DS.textSec, fontWeight: 700 }}>
+                      {projects.length} / 3{isAtLimit ? " — al limite!" : ""}
+                    </span>
                   </div>
-                  <div style={{ height: "3px", background: DS.border, borderRadius: "2px", overflow: "hidden" }}>
-                    <div style={{ width: `${Math.min((projects.length / 3) * 100, 100)}%`, height: "100%", background: projects.length >= 3 ? DS.red : DS.accent, borderRadius: "2px" }} />
+                  <div style={{ height: "4px", background: "rgba(255,255,255,0.06)", borderRadius: "2px", overflow: "hidden" }}>
+                    <div style={{
+                      width: `${Math.min((projects.length / 3) * 100, 100)}%`,
+                      height: "100%",
+                      background: isAtLimit ? DS.red : DS.accent,
+                      borderRadius: "2px",
+                      transition: "width 0.4s ease",
+                    }} />
                   </div>
                 </div>
               )}
             </div>
+          ) : (
+            <button onClick={() => signOut({ callbackUrl: "/" })} style={{
+              width: "100%", display: "flex", justifyContent: "center", alignItems: "center",
+              padding: "10px", borderRadius: "8px", border: "none",
+              background: "transparent", color: DS.red, cursor: "pointer",
+            }}>
+              <LogOut size={16} />
+            </button>
           )}
-          <button onClick={() => signOut({ callbackUrl: "/" })} style={{
-            display: "flex", alignItems: "center", gap: "10px",
-            padding: "9px 12px", borderRadius: "8px", border: "none",
-            background: "transparent", color: "#ef4444", fontSize: "13px",
-            fontWeight: 500, cursor: "pointer", width: "100%",
-            justifyContent: sidebarOpen ? "flex-start" : "center", whiteSpace: "nowrap",
-          }}
-            onMouseEnter={e => (e.currentTarget.style.background = "rgba(239,68,68,0.08)")}
-            onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
-          >
-            <LogOut size={16} />
-            {sidebarOpen && "Logout"}
-          </button>
         </div>
       </aside>
+
 
       {/* ── MAIN ─────────────────────────────────────────────── */}
       <main style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column" }}>
 
         {/* Top Bar */}
         <div style={{
-          height: "64px", padding: "0 32px",
+          height: "64px", padding: "0 24px",
           display: "flex", alignItems: "center", gap: "16px",
           borderBottom: `1px solid ${DS.border}`,
           background: `rgba(8,11,18,0.9)`, backdropFilter: "blur(12px)",
           position: "sticky", top: 0, zIndex: 10,
         }}>
-          <h1 style={{ fontSize: "18px", fontWeight: 700, color: "#fff", letterSpacing: "-0.01em" }}>
-            {activeTab === "dashboard" ? "Overview" : activeLabel}
+          {/* Left: Clean title matching user's size preference */}
+          <h1 style={{ fontSize: "18px", fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", margin: 0 }}>
+            {activeTab === "dashboard" ? "Panoramica" : activeLabel}
           </h1>
+
           <div style={{ flex: 1 }} />
 
+          {/* Torna al sito */}
+          <a href="/" style={{
+            display: "flex", alignItems: "center", gap: "8px",
+            padding: "8px 16px", borderRadius: "8px",
+            border: `1px solid ${DS.border}`,
+            background: "transparent",
+            color: DS.textSec, fontSize: "13px", fontWeight: 500,
+            textDecoration: "none", transition: "all 0.2s",
+            whiteSpace: "nowrap",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = DS.accent; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = DS.border; e.currentTarget.style.color = DS.textSec; }}
+          >
+            <Globe size={14} />
+            Torna al sito
+          </a>
+
+          {/* Divider */}
+          <div style={{ width: "1px", height: "24px", background: DS.border }} />
+
           {/* Notification bell */}
-          <button style={{ width: "36px", height: "36px", borderRadius: "8px", background: DS.card, border: `1px solid ${DS.border}`, color: DS.textSec, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-            <Bell size={15} />
+          <button style={{
+            width: "38px", height: "38px", borderRadius: "9px",
+            background: DS.card, border: `1px solid ${DS.border}`,
+            color: DS.textSec, display: "flex", alignItems: "center",
+            justifyContent: "center", cursor: "pointer", transition: "all 0.2s",
+          }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = DS.accent; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = DS.border; e.currentTarget.style.color = DS.textSec; }}
+          >
+            <Bell size={16} />
           </button>
 
           {/* New Design CTA */}
           <button onClick={() => createProject("Nuovo Design")} disabled={creating || isAtLimit} style={{
-            background: `linear-gradient(135deg, ${DS.accent}, #8b5cf6)`,
-            color: "#fff", padding: "8px 20px", borderRadius: "8px",
-            border: "none", fontSize: "13px", fontWeight: 700,
+            background: isAtLimit ? "transparent" : `linear-gradient(135deg, ${DS.accent}, #8b5cf6)`,
+            border: isAtLimit ? `1px solid rgba(99,102,241,0.4)` : "none",
+            color: "#fff", padding: "8px 20px", borderRadius: "10px",
+            fontSize: "14px", fontWeight: 700,
             display: "flex", alignItems: "center", gap: "8px",
             cursor: isAtLimit ? "not-allowed" : "pointer",
             opacity: creating ? 0.7 : 1,
-            boxShadow: `0 4px 20px rgba(99,102,241,0.35)`,
-            transition: "all 0.2s",
+            boxShadow: isAtLimit ? "none" : `0 4px 16px rgba(99,102,241,0.35)`,
+            transition: "all 0.2s", whiteSpace: "nowrap",
           }}>
             <Plus size={16} />
             {creating ? "Creazione..." : isAtLimit ? "Upgrade →" : "Nuovo Design"}
           </button>
         </div>
 
+
         {/* Content */}
-        <div style={{ flex: 1, padding: "32px", maxWidth: "1280px", width: "100%", margin: "0 auto" }}>
+        <div style={{ flex: 1, padding: "24px 32px 32px", maxWidth: "1280px", width: "100%", margin: "0 auto" }}>
 
           {/* Upgrade Banner */}
           {isAtLimit && (
@@ -391,7 +501,7 @@ export default function DashboardClient({ user, projects, plan }: DashboardClien
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
                   <h2 style={{ fontSize: "26px", fontWeight: 800, color: "#fff", margin: "0 0 6px", letterSpacing: "-0.02em" }}>
-                    Welcome back, <span style={{ background: `linear-gradient(90deg, ${DS.accent}, #a78bfa)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{user.name?.split(" ")[0] || "Designer"}</span> 👋
+                    Bentornato, <span style={{ background: `linear-gradient(90deg, ${DS.accent}, #a78bfa)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{user.name?.split(" ")[0] || "Designer"}</span> 👋
                   </h2>
                   <p style={{ color: DS.textSec, fontSize: "14px", margin: 0 }}>
                     Ecco un riepilogo della tua attività recente.
@@ -781,7 +891,7 @@ export default function DashboardClient({ user, projects, plan }: DashboardClien
           {activeTab === "users" && (
             <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
               <div>
-                <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Users & Teams</h2>
+                <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Team & Utenti</h2>
                 <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Collaborazione e gestione team disponibile nel piano Business.</p>
               </div>
               <div style={{ background: DS.card, border: `1px solid ${DS.border}`, borderRadius: "16px", padding: "60px 20px", textAlign: "center" }}>
@@ -795,6 +905,58 @@ export default function DashboardClient({ user, projects, plan }: DashboardClien
                 <button onClick={() => router.push("/prezzi")} style={{ background: `linear-gradient(135deg,${DS.orange},#ec4899)`, color: "#fff", border: "none", padding: "12px 28px", borderRadius: "10px", fontWeight: 700, cursor: "pointer", fontSize: "14px", boxShadow: `0 4px 20px rgba(245,158,11,0.3)` }}>
                   Guarda i Piani
                 </button>
+              </div>
+            </div>
+          )}
+
+          {/* ─── TAB: INTEGRAZIONI ─────────────────────── */}
+          {activeTab === "integrations" && (
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+              <div>
+                <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Integrazioni API</h2>
+                <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Connetti i tuoi servizi preferiti a GenCard.</p>
+              </div>
+
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "16px" }}>
+                {[
+                  { name: "GitHub OAuth",  icon: "⬛", desc: "Accesso rapido con il tuo account GitHub.",          status: true,  color: "#f0f6fc" },
+                  { name: "Stripe",         icon: "💳", desc: "Gestisci pagamenti, abbonamenti e fatture.",          status: false, color: DS.accent },
+                  { name: "Google OAuth",   icon: "🔵", desc: "Login sicuro tramite account Google.",               status: false, color: DS.blue },
+                  { name: "Slack",           icon: "💬", desc: "Notifiche di team direttamente su Slack.",           status: false, color: DS.green },
+                  { name: "Zapier",          icon: "⚡", desc: "Automatizza workflow con oltre 5.000 app.",          status: false, color: DS.orange },
+                  { name: "Webhooks",        icon: "🔗", desc: "Invia notifiche HTTP a qualsiasi endpoint.",         status: false, color: "#a78bfa" },
+                ].map((int, i) => (
+                  <div key={i} style={{
+                    background: DS.card, border: `1px solid ${DS.border}`,
+                    borderRadius: "14px", padding: "20px",
+                    display: "flex", flexDirection: "column", gap: "14px",
+                    transition: "all 0.2s",
+                  }}
+                    onMouseEnter={e => (e.currentTarget.style.borderColor = DS.accent)}
+                    onMouseLeave={e => (e.currentTarget.style.borderColor = DS.border)}
+                  >
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                        <div style={{ width: "44px", height: "44px", borderRadius: "12px", background: DS.bg, border: `1px solid ${DS.border}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px" }}>
+                          {int.icon}
+                        </div>
+                        <div>
+                          <div style={{ fontSize: "14px", fontWeight: 700, color: "#fff" }}>{int.name}</div>
+                          <div style={{ fontSize: "11px", color: DS.textSec, marginTop: "2px" }}>{int.desc}</div>
+                        </div>
+                      </div>
+                      <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: int.status ? DS.green : DS.border, flexShrink: 0 }} />
+                    </div>
+                    <button style={{
+                      width: "100%", padding: "8px", borderRadius: "8px", border: `1px solid ${int.status ? "rgba(16,185,129,0.3)" : DS.border}`,
+                      background: int.status ? "rgba(16,185,129,0.08)" : "transparent",
+                      color: int.status ? DS.green : DS.textSec,
+                      fontSize: "12px", fontWeight: 600, cursor: "pointer",
+                    }}>
+                      {int.status ? "✓ Connesso" : "Connetti"}
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
