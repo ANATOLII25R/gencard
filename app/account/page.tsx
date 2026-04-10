@@ -8,7 +8,7 @@ import { ArrowLeft, Crown, CreditCard, User, Calendar, ChevronRight } from "luci
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Account — VolantinoAI",
+  title: "Account — GenCard",
 };
 
 export default async function AccountPage() {

@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "GenCard — Crea Design Professionali Online",
   description: "L'editor di design più potente per il tuo business. Crea volantini, poster e grafica professionale in minuti con l'editor canvas drag-and-drop. Template gratis, export PNG e PDF.",
-  keywords: ["gencard ai", "volantini online", "editor grafico", "design volantini", "crea volantini gratis", "flyer maker", "poster maker"],
+  keywords: ["gencard", "volantini online", "editor grafico", "design volantini", "crea design gratis", "flyer maker", "poster maker"],
   authors: [{ name: "Anatolii Spagna" }],
   openGraph: {
     title: "GenCard — Crea Design Professionali",

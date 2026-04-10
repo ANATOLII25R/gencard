@@ -153,7 +153,7 @@ export default function Hero() {
             <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#febc2e" }} />
             <div style={{ width: 12, height: 12, borderRadius: "50%", background: "#28c840" }} />
             <span style={{ marginLeft: "12px", fontSize: "13px", color: "var(--text-muted)" }}>
-              VolantinoAI — Editor
+              GenCard — Editor
             </span>
           </div>
           <div style={{

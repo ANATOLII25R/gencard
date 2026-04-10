@@ -680,7 +680,7 @@ export default function DashboardClient({ user, projects, plan }: DashboardClien
             <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
               <div>
                 <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Products & Posters</h2>
-                <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Tipi di contenuto che puoi creare con VolantinoAI.</p>
+                <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Tipi di contenuto che puoi creare con GenCard.</p>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
                 {[

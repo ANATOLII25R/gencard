@@ -24,7 +24,7 @@ const TESTIMONIALS = [
   {
     name: "Luca Romano",
     role: "Personal Trainer",
-    text: "Uso VolantinoAI ogni settimana per promuovere le mie classi. Facile, veloce e i risultati sono ottimi!",
+    text: "Uso GenCard ogni settimana per promuovere le mie classi. Facile, veloce e i risultati sono ottimi!",
     avatar: "LR",
     color: "#059669",
   },

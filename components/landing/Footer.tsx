@@ -134,7 +134,7 @@ export default function Footer() {
           flexWrap: "wrap", gap: "12px",
         }}>
           <span style={{ fontSize: "13px", color: "var(--text-muted)" }}>
-            © 2025 VolantinoAI. Tutti i diritti riservati.
+            © 2025 GenCard. Tutti i diritti riservati.
           </span>
           <span style={{ fontSize: "13px", color: "var(--text-muted)" }}>
             Fatto con ❤️ in Italia 🇮🇹

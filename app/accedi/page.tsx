@@ -80,7 +80,7 @@ export default async function AccediPage() {
           </h1>
 
           <p style={{ fontSize: "16px", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: "36px" }}>
-            Unisciti a migliaia di professionisti italiani che usano VolantinoAI per promuovere il loro business.
+            Unisciti a migliaia di professionisti italiani che usano GenCard per promuovere il loro business.
           </p>
 
           {/* Benefits list */}

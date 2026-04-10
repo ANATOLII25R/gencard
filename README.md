@@ -1,186 +1,188 @@
 # GenCard 🎨⚡
 
-> **SaaS-платформа для створення професійних флаєрів, постерів та графіки** — прямо в браузері. Без дизайнерського досвіду.
+> **Piattaforma SaaS per la creazione di volantini, poster e grafica professionale** — direttamente nel browser. Senza esperienza di design.
 
-**Автор:** Anatolii Spagna · [@ANATOLII25R](https://github.com/ANATOLII25R)
+**Autore:** Anatolii Spagna · [@ANATOLII25R](https://github.com/ANATOLII25R)
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)
 ![Prisma](https://img.shields.io/badge/Prisma-7.x-2D3748?logo=prisma)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-NeonDB-336791?logo=postgresql)
+![TailwindCSS](https://img.shields.io/badge/Tailwind-4.x-38B2AC?logo=tailwind-css)
 
 ---
 
-## 🏗️ Стек технологій
+## 🏗️ Stack Tecnologico
 
 ### Frontend
-| Технологія | Версія | Призначення |
+| Tecnologia | Versione | Utilizzo |
 |---|---|---|
-| **Next.js** | 16.2 | React фреймворк (App Router + Server Components) |
-| **React** | 19 | UI бібліотека |
-| **TypeScript** | 5.x | Типізована мова |
-| **Tailwind CSS** | 4.x | Стилізація |
-| **Fabric.js** | 6.x | Canvas-редактор (drag & drop, об'єкти, малювання) |
-| **Lucide React** | 1.x | Іконки |
+| **Next.js** | 16.2 | Framework React (App Router + Server Components) |
+| **React** | 19 | Libreria UI |
+| **TypeScript** | 5.x | Linguaggio tipizzato |
+| **Tailwind CSS** | 4.x | Stile e design |
+| **Fabric.js** | 6.x | Editor Canvas (drag & drop, oggetti, disegno) |
+| **Lucide React** | 1.x | Icone |
 
 ### Backend / API
-| Технологія | Версія | Призначення |
+| Tecnologia | Versione | Utilizzo |
 |---|---|---|
-| **Next.js API Routes** | 16.2 | REST API маршрути |
-| **NextAuth.js (Auth.js)** | 5.x beta | Автентифікація (GitHub OAuth + Email/Password) |
-| **Prisma ORM** | 7.x | Робота з базою даних |
-| **@prisma/adapter-pg** | 7.x | Адаптер PostgreSQL для Node.js |
-| **bcryptjs** | 3.x | Хешування паролів |
+| **Next.js API Routes** | 16.2 | Rotte REST API |
+| **NextAuth.js (Auth.js)** | 5.x beta | Autenticazione (GitHub OAuth + Email/Password) |
+| **Prisma ORM** | 7.x | Gestione del database |
+| **@prisma/adapter-pg** | 7.x | Adattatore PostgreSQL per Node.js |
+| **bcryptjs** | 3.x | Hashing delle password |
 
-### База даних
-| Технологія | Призначення |
+### Database
+| Tecnologia | Utilizzo |
 |---|---|
-| **PostgreSQL** (Neon.tech) | Основна база даних в хмарі |
-| **Neon Serverless** | Безсерверний PostgreSQL з connection pooling |
+| **PostgreSQL** (Neon.tech) | Database principale in cloud |
+| **Neon Serverless** | PostgreSQL serverless con connection pooling |
 
-### Платежі
-| Технологія | Призначення |
+### Pagamenti
+| Tecnologia | Utilizzo |
 |---|---|
-| **Stripe** | Підписки (FREE / PRO / BUSINESS) |
-| **@stripe/stripe-js** | Клієнтська частина Stripe |
+| **Stripe** | Abbonamenti (FREE / PRO / BUSINESS) |
+| **@stripe/stripe-js** | Integrazione lato client |
 
 ---
 
-## 📁 Структура проекту
+## 📁 Struttura del Progetto
 
 ```
 flyer-saas/
 │
 ├── app/                          ← Next.js App Router
-│   ├── layout.tsx                ← Root layout (шрифти, meta)
-│   ├── page.tsx                  ← Лендінг (Hero, Features, Pricing)
-│   ├── globals.css               ← CSS змінні, теми, анімації
+│   ├── layout.tsx                ← Layout principale (font, meta SEO)
+│   ├── page.tsx                  ← Landing page (Hero, Funzionalità, Prezzi)
+│   ├── globals.css               ← Variabili CSS, tema, animazioni
 │   │
-│   ├── dashboard/                ← Приватна екосистема користувача
-│   │   ├── page.tsx              ← Server Component (завантаження даних + кеш)
-│   │   └── DashboardClient.tsx   ← Client Component (UI, tabs, sidebar)
+│   ├── dashboard/                ← Ecosistema privato dell'utente
+│   │   ├── page.tsx              ← Server Component (caricamento dati + cache)
+│   │   └── DashboardClient.tsx   ← Client Component (UI, tab, sidebar)
 │   │
-│   ├── editor/[id]/              ← Canvas-редактор флаєрів
+│   ├── editor/[id]/              ← Editor Canvas per i design
 │   │   └── page.tsx
 │   │
-│   ├── accedi/                   ← Публічна сторінка входу (legacy)
+│   ├── accedi/                   ← Pagina di accesso (legacy)
 │   │   └── page.tsx
 │   │
-│   ├── prezzi/                   ← Сторінка цін
+│   ├── prezzi/                   ← Pagina dei prezzi
 │   │   └── page.tsx
 │   │
-│   ├── account/                  ← Профіль користувача
+│   ├── account/                  ← Profilo utente
 │   │   └── page.tsx
 │   │
 │   ├── actions/                  ← Server Actions
-│   │   └── auth.ts               ← Реєстрація Email/Password
+│   │   └── auth.ts               ← Registrazione Email/Password
 │   │
-│   └── api/                      ← REST API
-│       ├── auth/[...nextauth]/   ← NextAuth обробник
-│       └── progetti/             ← CRUD проектів
+│   └── api/                      ← API REST
+│       ├── auth/[...nextauth]/   ← Gestore NextAuth
+│       └── progetti/             ← CRUD dei progetti
 │           ├── route.ts          ← GET, POST
-│           └── [id]/route.ts     ← PUT (зберегти), DELETE
+│           └── [id]/route.ts     ← PUT (salva), DELETE
 │
 ├── components/
-│   ├── landing/                  ← Компоненти лендінгу
-│   │   ├── Header.tsx            ← Навігація + Модальне вікно Auth
-│   │   ├── Hero.tsx              ← Головний банер
-│   │   ├── Features.tsx          ← Переваги
-│   │   ├── Pricing.tsx           ← Ціни та тарифи
-│   │   └── Footer.tsx            ← Підвал
+│   ├── landing/                  ← Componenti della landing page
+│   │   ├── Header.tsx            ← Navigazione + Modale di autenticazione
+│   │   ├── Hero.tsx              ← Banner principale
+│   │   ├── Features.tsx          ← Funzionalità
+│   │   ├── Pricing.tsx           ← Prezzi e abbonamenti
+│   │   └── Footer.tsx            ← Piè di pagina
 │   │
-│   └── editor/                   ← Компоненти редактора
-│       ├── CanvasEditor.tsx      ← Fabric.js canvas (drag & drop)
-│       └── Toolbar.tsx           ← Панель інструментів
+│   └── editor/                   ← Componenti dell'editor
+│       ├── CanvasEditor.tsx      ← Canvas Fabric.js (drag & drop)
+│       └── Toolbar.tsx           ← Barra degli strumenti
 │
 ├── lib/
-│   ├── prisma.ts                 ← Prisma Client (pg адаптер)
-│   ├── auth.ts                   ← NextAuth конфігурація
-│   └── stripe.ts                 ← Stripe клієнт
+│   ├── prisma.ts                 ← Prisma Client (adattatore pg)
+│   ├── auth.ts                   ← Configurazione NextAuth
+│   └── stripe.ts                 ← Client Stripe
 │
 ├── prisma/
-│   ├── schema.prisma             ← БД моделі (User, Project, Subscription…)
-│   └── migrations/               ← SQL міграції
+│   ├── schema.prisma             ← Modelli del database
+│   └── migrations/               ← Migrazioni SQL
 │
 ├── types/
-│   └── index.ts                  ← TypeScript типи (Project, PlanType…)
+│   └── index.ts                  ← Tipi TypeScript (Project, PlanType…)
 │
-├── middleware.ts                 ← Захист маршрутів (JWT Edge-compatible)
-├── prisma.config.ts              ← Prisma 7 конфігурація
-├── .env.local                    ← Секретні ключі (не в git!)
-├── next.config.ts                ← Next.js конфігурація
-└── tailwind.config.ts            ← Tailwind конфігурація
+├── middleware.ts                 ← Protezione delle rotte (JWT Edge-compatible)
+├── prisma.config.ts              ← Configurazione Prisma 7
+├── .env.local                    ← Chiavi private (non incluso nel git!)
+├── .env.example                  ← Template variabili d'ambiente
+├── next.config.ts                ← Configurazione Next.js
+└── tailwind.config.ts            ← Configurazione Tailwind
 ```
 
 ---
 
-## 🗄️ Схема бази даних
+## 🗄️ Schema del Database
 
 ```
-User ──────┬── Account (OAuth: GitHub)
-           ├── Session (JWT)
-           ├── Project[] (флаєри та дизайни)
-           └── Subscription (FREE / PRO / BUSINESS)
+Utente ────┬── Account (OAuth: GitHub)
+           ├── Sessione (JWT)
+           ├── Progetto[] (volantini e design)
+           └── Abbonamento (FREE / PRO / BUSINESS)
 ```
 
-### Моделі
-- **User** — профіль, email, пароль (bcrypt), зображення
-- **Account** — OAuth провайдери
-- **Session** — активні сесії
-- **Project** — ім'я, canvasData (JSON), thumbnail, розміри
-- **Subscription** — план, Stripe ID, дата закінчення
+### Modelli
+- **User** — profilo, email, password (bcrypt), immagine
+- **Account** — provider OAuth
+- **Session** — sessioni attive
+- **Project** — nome, canvasData (JSON), thumbnail, dimensioni
+- **Subscription** — piano, Stripe ID, data di scadenza
 
 ---
 
-## 🔐 Автентифікація
+## 🔐 Autenticazione
 
-Підтримується два методи входу:
-1. **GitHub OAuth** — швидкий вхід через GitHub аккаунт
-2. **Email + Password** — самостійна реєстрація з bcrypt хешуванням
+Sono supportati due metodi di accesso:
+1. **GitHub OAuth** — accesso rapido tramite account GitHub
+2. **Email + Password** — registrazione autonoma con hashing bcrypt
 
-JWT-стратегія сесій, Edge-сумісний Middleware для захисту маршрутів.
+Strategia sessioni JWT, Middleware Edge-compatibile per la protezione delle rotte.
 
 ---
 
-## 💰 Плани підписок
+## 💰 Piani di Abbonamento
 
-| План | Проекти | Export | Ціна |
+| Piano | Progetti | Export | Prezzo |
 |---|---|---|---|
-| **FREE** | 3 | PNG | Безкоштовно |
-| **PRO** | Необмежено | PNG + PDF | ~€9/міс |
-| **BUSINESS** | Необмежено | Все + Brand Kit | ~€29/міс |
+| **FREE** | 3 | PNG | Gratuito |
+| **PRO** | Illimitati | PNG + PDF | ~€9/mese |
+| **BUSINESS** | Illimitati | Tutto + Brand Kit | ~€29/mese |
 
 ---
 
-## 🚀 Запуск локально
+## 🚀 Avvio in Locale
 
 ```bash
-# 1. Встанови залежності
+# 1. Installa le dipendenze
 npm install
 
-# 2. Створи .env.local (заповни всі змінні)
+# 2. Crea il file .env.local (compila tutte le variabili)
 cp .env.example .env.local
 
-# 3. Згенеруй Prisma клієнт
+# 3. Genera il client Prisma
 npx prisma generate
 
-# 4. Синхронізуй схему з БД
+# 4. Sincronizza lo schema con il database
 npx prisma db push
 
-# 5. Запусти сервер розробки
+# 5. Avvia il server di sviluppo
 npm run dev
 ```
 
-Відкрий [http://localhost:3000](http://localhost:3000)
+Apri [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🔧 Змінні середовища (.env.local)
+## 🔧 Variabili d'Ambiente (.env.local)
 
 ```env
-DATABASE_URL="postgresql://..."     # Neon PostgreSQL URL
-AUTH_SECRET="..."                   # NextAuth секрет
-NEXTAUTH_SECRET="..."               # Alias для NextAuth
+DATABASE_URL="postgresql://..."     # URL Neon PostgreSQL
+AUTH_SECRET="..."                   # Segreto NextAuth
+NEXTAUTH_SECRET="..."               # Alias per NextAuth
 NEXTAUTH_URL="http://localhost:3000"
 GITHUB_CLIENT_ID="..."
 GITHUB_CLIENT_SECRET="..."
@@ -191,7 +193,7 @@ STRIPE_WEBHOOK_SECRET="whsec_..."
 
 ---
 
-## 📦 Основні залежності
+## 📦 Dipendenze Principali
 
 ```json
 {
@@ -211,15 +213,15 @@ STRIPE_WEBHOOK_SECRET="whsec_..."
 
 ---
 
-## 🎨 Дизайн-система
+## 🎨 Sistema di Design
 
-Тема **Dashdark X** — глибокі космічні кольори:
-- `#080B12` — основний фон
-- `#111827` — картки
-- `#6366F1` — акцент (Indigo)
-- `#F8FAFC` — основний текст
-- `#94A3B8` — другорядний текст
+Tema **Dashdark X** — colori profondi e scuri:
+- `#080B12` — sfondo principale
+- `#111827` — sfondo schede
+- `#6366F1` — colore accento (Indigo)
+- `#F8FAFC` — testo principale
+- `#94A3B8` — testo secondario
 
 ---
 
-*Створено з ❤️ за допомогою AI. Розроблено для малого бізнесу Італії та всього світу.*
+*Creato con ❤️ con l'aiuto dell'intelligenza artificiale. Progettato per le piccole imprese italiane e di tutto il mondo.*

@@ -4,8 +4,8 @@ import PricingSection from "@/components/landing/Pricing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Prezzi — VolantinoAI",
-  description: "Scegli il piano giusto per te. Inizia gratis e scala quando sei pronto con i piani Pro e Business di VolantinoAI.",
+  title: "Prezzi — GenCard",
+  description: "Scegli il piano giusto per te. Inizia gratis e scala quando sei pronto con i piani Pro e Business di GenCard.",
 };
 
 export default function PrezziPage({
