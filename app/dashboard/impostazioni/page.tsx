@@ -1,36 +1,22 @@
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { unstable_cache } from "next/cache";
-import { Crown, CreditCard, Link2, Shield, User as UserIcon } from "lucide-react";
-import { Check } from "lucide-react";
-import type { PlanType } from "@/types";
+"use client";
+import { Crown, CreditCard, Link2, Shield, User as UserIcon, Check } from "lucide-react";
+import { useDashboard } from "../DashboardContext";
 
 const DS = {
   bg: "#080B12", card: "#111827", border: "#1E293B",
-  accent: "#6366F1", green: "#10B981", red: "#EF4444", orange: "#F59E0B",
+  accent: "#6366F1", green: "#10B981", red: "#EF4444",
   textSec: "#94A3B8", textMut: "#475569",
 };
 
-const PLAN_LABEL: Record<PlanType, string> = { FREE: "Gratuito", PRO: "Pro", BUSINESS: "Business" };
-const PLAN_DESC: Record<PlanType, string> = {
+const PLAN_LABEL: Record<string, string> = { FREE: "Gratuito", PRO: "Pro", BUSINESS: "Business" };
+const PLAN_DESC: Record<string, string> = {
   FREE: "3 progetti, export PNG",
   PRO: "Progetti illimitati, export PDF",
   BUSINESS: "Tutto incluso + teams",
 };
 
-const getUserSubscription = unstable_cache(
-  async (userId: string) => prisma.subscription.findUnique({ where: { userId } }),
-  ["user-subscription"],
-  { revalidate: false, tags: ["subscription"] }
-);
-
-export default async function ImpostazioniPage() {
-  const session = await auth();
-  if (!session?.user?.id) return null;
-
-  const subscription = await getUserSubscription(session.user.id);
-  const plan = (subscription?.plan ?? "FREE") as PlanType;
-  const user = session.user;
+export default function ImpostazioniPage() {
+  const { user, plan } = useDashboard();
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>

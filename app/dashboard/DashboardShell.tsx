@@ -8,6 +8,7 @@ import {
   Package, Link2, ChevronRight, Globe, MoreHorizontal, Menu,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { DashboardContext } from "./DashboardContext";
 import type { LucideIcon } from "lucide-react";
 import type { PlanType } from "@/types";
 
@@ -253,7 +254,9 @@ export default function DashboardShell({ user, plan, projectCount, children }: S
               </button>
             </div>
           )}
-          {children}
+          <DashboardContext.Provider value={{ user, plan, projectCount }}>
+            {children}
+          </DashboardContext.Provider>
         </div>
       </main>
     </div>
