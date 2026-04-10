@@ -496,16 +496,14 @@ export default function DashboardClient({ user, projects, plan }: DashboardClien
 
           {/* ─── TAB: DASHBOARD ────────────────────────────────── */}
           {activeTab === "dashboard" && (
-            <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
-              {/* Welcome */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+              {/* Standard header — same as all other tabs */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div>
-                  <h2 style={{ fontSize: "26px", fontWeight: 800, color: "#fff", margin: "0 0 6px", letterSpacing: "-0.02em" }}>
+                  <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>
                     Bentornato, <span style={{ background: `linear-gradient(90deg, ${DS.accent}, #a78bfa)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>{user.name?.split(" ")[0] || "Designer"}</span> 👋
                   </h2>
-                  <p style={{ color: DS.textSec, fontSize: "14px", margin: 0 }}>
-                    Ecco un riepilogo della tua attività recente.
-                  </p>
+                  <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Ecco un riepilogo della tua attività recente.</p>
                 </div>
               </div>
 
