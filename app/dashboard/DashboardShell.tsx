@@ -8,6 +8,7 @@ import {
   Package, Link2, ChevronRight, Globe, MoreHorizontal, Menu,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
+import type { LucideIcon } from "lucide-react";
 import type { PlanType } from "@/types";
 
 const DS = {
@@ -18,6 +19,14 @@ const DS = {
 };
 
 const PLAN_LABEL: Record<PlanType, string> = { FREE: "Gratuito", PRO: "Pro", BUSINESS: "Business" };
+
+interface NavItem {
+  href: string;
+  Icon: LucideIcon;
+  label: string;
+  badge: string | null;
+  badgeType: "number" | "new" | "dot";
+}
 
 interface ShellProps {
   user: { id?: string; name?: string | null; email?: string | null };
@@ -35,35 +44,41 @@ export default function DashboardShell({ user, plan, projectCount, children }: S
 
   const isAtLimit = plan === "FREE" && projectCount >= 3;
 
-  const navGroups = [
+  // Store Icon component (not JSX instance) so we can render at any size
+  const navGroups: { label: string; items: NavItem[] }[] = [
     {
       label: "PAGINE",
       items: [
-        { href: "/dashboard",          icon: <LayoutDashboard size={16} />, label: "Dashboard",         badge: null,                                      badgeType: "number" },
-        { href: "/dashboard/design",   icon: <Folder size={16} />,          label: "I Miei Design",     badge: projectCount > 0 ? String(projectCount) : null, badgeType: "number" },
-        { href: "/dashboard/template", icon: <Layers size={16} />,          label: "Template",          badge: "8",                                       badgeType: "number" },
-        { href: "/dashboard/prodotti", icon: <Package size={16} />,         label: "Prodotti / Poster", badge: "Nuovo",                                   badgeType: "new"    },
+        { href: "/dashboard",          Icon: LayoutDashboard, label: "Dashboard",         badge: null,                                      badgeType: "number" },
+        { href: "/dashboard/design",   Icon: Folder,          label: "I Miei Design",     badge: projectCount > 0 ? String(projectCount) : null, badgeType: "number" },
+        { href: "/dashboard/template", Icon: Layers,          label: "Template",          badge: "8",                                       badgeType: "number" },
+        { href: "/dashboard/prodotti", Icon: Package,         label: "Prodotti / Poster", badge: "Nuovo",                                   badgeType: "new"    },
       ],
     },
     {
       label: "STRUMENTI",
       items: [
-        { href: "/dashboard/upload",        icon: <UploadCloud size={16} />, label: "Upload / Risorse",  badge: null,  badgeType: "number" },
-        { href: "/dashboard/team",          icon: <Users size={16} />,       label: "Team & Utenti",     badge: null,  badgeType: "number" },
-        { href: "/dashboard/integrazioni",  icon: <Link2 size={16} />,       label: "Integrazioni API",  badge: "dot", badgeType: "dot"    },
+        { href: "/dashboard/upload",       Icon: UploadCloud, label: "Upload / Risorse",  badge: null,  badgeType: "number" },
+        { href: "/dashboard/team",         Icon: Users,       label: "Team & Utenti",     badge: null,  badgeType: "number" },
+        { href: "/dashboard/integrazioni", Icon: Link2,       label: "Integrazioni API",  badge: "dot", badgeType: "dot"    },
       ],
     },
     {
       label: "SISTEMA",
       items: [
-        { href: "/dashboard/impostazioni", icon: <Settings size={16} />, label: "Impostazioni", badge: null, badgeType: "number" },
+        { href: "/dashboard/impostazioni", Icon: Settings, label: "Impostazioni", badge: null, badgeType: "number" },
       ],
     },
   ];
 
   const allItems = navGroups.flatMap(g => g.items);
   const isActive = (href: string) => href === "/dashboard" ? pathname === href : pathname.startsWith(href);
-  const activeLabel = allItems.find(i => isActive(i.href))?.label ?? "Dashboard";
+
+  // Active page info for topbar
+  const activeItem = allItems.find(i => isActive(i.href)) ?? { Icon: LayoutDashboard, label: "Dashboard" };
+  const ActiveIcon = activeItem.Icon;
+  const activeLabel = activeItem.label;
+  const topbarTitle = pathname === "/dashboard" ? "Panoramica" : activeLabel;
 
   const createProject = async () => {
     if (isAtLimit) { router.push("/prezzi"); return; }
@@ -84,7 +99,7 @@ export default function DashboardShell({ user, plan, projectCount, children }: S
       {/* ── SIDEBAR ─────────────────────────────────────────── */}
       <aside style={{ width: sidebarOpen ? "260px" : "72px", background: DS.sidebar, borderRight: `1px solid ${DS.border}`, display: "flex", flexDirection: "column", transition: "width 0.3s cubic-bezier(0.4,0,0.2,1)", overflow: "hidden", flexShrink: 0, zIndex: 20 }}>
 
-        {/* Logo */}
+        {/* Logo — 64px height, 34px icon + 16px/800 text */}
         <div style={{ height: "64px", padding: "0 16px", display: "flex", alignItems: "center", gap: "10px", borderBottom: `1px solid ${DS.border}` }}>
           <div style={{ width: "34px", height: "34px", borderRadius: "10px", flexShrink: 0, background: "linear-gradient(135deg,#7c3aed,#6366f1)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 16px rgba(99,102,241,0.45)" }}>
             <Zap size={17} color="white" fill="white" />
@@ -122,7 +137,7 @@ export default function DashboardShell({ user, plan, projectCount, children }: S
                   const active = isActive(item.href);
                   return (
                     <Link key={item.href} href={item.href} style={{ display: "flex", alignItems: "center", gap: "10px", padding: sidebarOpen ? "9px 12px" : "10px", justifyContent: sidebarOpen ? "flex-start" : "center", borderRadius: "8px", background: active ? "rgba(99,102,241,0.25)" : "transparent", color: active ? "#fff" : DS.textSec, fontSize: "13px", fontWeight: active ? 600 : 500, transition: "all 0.15s", whiteSpace: "nowrap", width: "100%", textDecoration: "none" }}>
-                      <span style={{ color: active ? DS.accent : "inherit", flexShrink: 0 }}>{item.icon}</span>
+                      <span style={{ color: active ? DS.accent : "inherit", flexShrink: 0 }}><item.Icon size={16} /></span>
                       {sidebarOpen && <span style={{ flex: 1 }}>{item.label}</span>}
                       {sidebarOpen && item.badgeType === "number" && item.badge && <span style={{ fontSize: "10px", fontWeight: 700, background: "#232B45", color: DS.textSec, padding: "1px 6px", borderRadius: "10px" }}>{item.badge}</span>}
                       {sidebarOpen && item.badgeType === "new" && <span style={{ fontSize: "9px", fontWeight: 800, background: "rgba(16,185,129,0.15)", color: DS.green, border: "1px solid rgba(16,185,129,0.3)", padding: "2px 7px", borderRadius: "10px" }}>Nuovo</span>}
@@ -187,11 +202,19 @@ export default function DashboardShell({ user, plan, projectCount, children }: S
       {/* ── MAIN ─────────────────────────────────────────────── */}
       <main style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column" }}>
 
-        {/* Top Bar */}
-        <div style={{ height: "64px", padding: "0 24px", display: "flex", alignItems: "center", gap: "16px", borderBottom: `1px solid ${DS.border}`, background: "rgba(8,11,18,0.9)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 10 }}>
-          <h1 style={{ fontSize: "18px", fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", margin: 0 }}>
-            {pathname === "/dashboard" ? "Panoramica" : activeLabel}
+        {/* Top Bar — mirrors sidebar logo: 64px, 34px icon box + 16px/800 title */}
+        <div style={{ height: "64px", padding: "0 20px", display: "flex", alignItems: "center", gap: "12px", borderBottom: `1px solid ${DS.border}`, background: "rgba(8,11,18,0.9)", backdropFilter: "blur(12px)", position: "sticky", top: 0, zIndex: 10 }}>
+
+          {/* Active page icon — same 34×34px box as sidebar logo icon */}
+          <div style={{ width: "34px", height: "34px", borderRadius: "10px", flexShrink: 0, background: DS.accentGl, border: `1px solid rgba(99,102,241,0.25)`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <ActiveIcon size={17} color={DS.accent} />
+          </div>
+
+          {/* Title — same fontSize/fontWeight as sidebar "GenCard" text */}
+          <h1 style={{ fontSize: "16px", fontWeight: 800, color: "#fff", letterSpacing: "-0.02em", margin: 0, whiteSpace: "nowrap" }}>
+            {topbarTitle}
           </h1>
+
           <div style={{ flex: 1 }} />
 
           <a href="/" style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px 16px", borderRadius: "8px", border: `1px solid ${DS.border}`, background: "transparent", color: DS.textSec, fontSize: "13px", fontWeight: 500, textDecoration: "none", transition: "all 0.2s", whiteSpace: "nowrap" }}
