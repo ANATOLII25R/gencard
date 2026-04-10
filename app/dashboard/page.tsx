@@ -114,9 +114,7 @@ export default async function PanoramicaPage() {
           </div>
         ) : (
           recentProjects.map(p => (
-            <Link key={p.id} href={`/editor/${p.id}`} style={{ display: "flex", alignItems: "center", gap: "14px", padding: "14px 20px", borderBottom: `1px solid ${DS.border}`, textDecoration: "none", transition: "background 0.15s" }}
-              onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
-              onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
+            <Link key={p.id} href={`/editor/${p.id}`} style={{ display: "flex", alignItems: "center", gap: "14px", padding: "14px 20px", borderBottom: `1px solid ${DS.border}`, textDecoration: "none", transition: "background 0.15s" }}>
               <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: "linear-gradient(135deg,#1e293b,#0f172a)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
                 <Edit3 size={16} color={DS.accent} />
               </div>

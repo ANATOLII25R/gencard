@@ -4,7 +4,7 @@
   "author": "Anatolii Spagna <zerotul1348@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "cross-env NEXT_DISABLE_TURBOPACK=1 next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

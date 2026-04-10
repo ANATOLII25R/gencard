@@ -1,3 +1,4 @@
+"use client";
 import { Globe, Layers, FileImage, Package, Type, Image as ImageIcon } from "lucide-react";
 
 const DS = {

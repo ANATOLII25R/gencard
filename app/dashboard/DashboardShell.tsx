@@ -192,7 +192,6 @@ export default function DashboardShell({ user, plan, projectCount, children }: S
           <h1 style={{ fontSize: "18px", fontWeight: 700, color: "#fff", letterSpacing: "-0.01em", margin: 0 }}>
             {pathname === "/dashboard" ? "Panoramica" : activeLabel}
           </h1>
-          <span style={{ fontSize: "11px", color: DS.textMut }}>GenCard Dashboard</span>
           <div style={{ flex: 1 }} />
 
           <a href="/" style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px 16px", borderRadius: "8px", border: `1px solid ${DS.border}`, background: "transparent", color: DS.textSec, fontSize: "13px", fontWeight: 500, textDecoration: "none", transition: "all 0.2s", whiteSpace: "nowrap" }}
