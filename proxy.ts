@@ -1,11 +1,11 @@
-// Middleware runs on Edge Runtime — it cannot import pg (Node.js) from lib/auth
-// So we use next-auth's JWT token verification directly
+// Proxy runs on Edge Runtime — cannot import pg (Node.js) from lib/auth
+// Uses next-auth JWT token verification directly
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
 const PROTECTED_PATHS = ["/dashboard", "/editor", "/account"];
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const isProtected = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
 
@@ -18,7 +18,7 @@ export async function middleware(req: NextRequest) {
   });
 
   if (!token) {
-    const loginUrl = new URL("/", req.url); // Redirect to homepage where modal opens
+    const loginUrl = new URL("/", req.url);
     return NextResponse.redirect(loginUrl);
   }
 
