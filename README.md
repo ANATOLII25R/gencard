@@ -1,12 +1,13 @@
-# VolantinoAI 🎨⚡
+# GenCard 🎨⚡
 
 > **SaaS-платформа для створення професійних флаєрів, постерів та графіки** — прямо в браузері. Без дизайнерського досвіду.
+
+**Автор:** Anatolii Spagna · [@ANATOLII25R](https://github.com/ANATOLII25R)
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.2-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)
 ![Prisma](https://img.shields.io/badge/Prisma-7.x-2D3748?logo=prisma)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-NeonDB-336791?logo=postgresql)
-![TailwindCSS](https://img.shields.io/badge/Tailwind-4.x-38B2AC?logo=tailwind-css)
 
 ---
 

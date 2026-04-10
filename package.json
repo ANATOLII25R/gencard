@@ -1,6 +1,7 @@
 {
-  "name": "flyer-saas",
+  "name": "gencard",
   "version": "0.1.0",
+  "author": "Anatolii Spagna <zerotul1348@gmail.com>",
   "private": true,
   "scripts": {
     "dev": "next dev",
