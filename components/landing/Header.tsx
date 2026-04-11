@@ -47,15 +47,15 @@ export default function Header() {
       setError(authMode === "register" ? "Registrazione effettuata, ma login fallito." : "Email o password errati.");
       setIsLoading(false);
     } else {
-      window.location.href = "/dashboard";
+      window.location.href = "/studio";
     }
   };
 
   return (
     <>
-    <header style={{
+    <header className="landing-header" style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-      padding: "0 24px", borderBottom: "1px solid var(--border)",
+      borderBottom: "1px solid var(--border)",
       backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)",
       background: "rgba(10,10,15,0.85)",
     }}>
@@ -121,7 +121,7 @@ export default function Header() {
       {mobileOpen && (
         <div style={{
           background: "var(--bg-secondary)", borderBottom: "1px solid var(--border)",
-          padding: "16px 24px", display: "flex", flexDirection: "column", gap: "16px",
+          padding: "16px var(--landing-pad-x, 16px)", display: "flex", flexDirection: "column", gap: "16px",
         }}>
           <a href="#" onClick={(e) => { e.preventDefault(); setMobileOpen(false); setAuthMode("register"); setIsLoginOpen(true); }} className="btn-primary" style={{ textAlign: "center", justifyContent: "center", textDecoration: "none" }}>
             Inizia Gratis <ArrowRight size={16} />
@@ -154,8 +154,8 @@ export default function Header() {
           display: "flex", alignItems: "center", justifyContent: "center", padding: "16px"
         }} onClick={() => setIsLoginOpen(false)}>
           
-          <div className="animate-fade-in" style={{
-            width: "100%", maxWidth: "420px", borderRadius: "20px", padding: "32px",
+          <div className="animate-fade-in landing-auth-modal" style={{
+            width: "100%", maxWidth: "420px", borderRadius: "20px",
             position: "relative",
             background: "rgba(22, 22, 31, 0.98)",
             border: "1px solid rgba(255, 255, 255, 0.08)",
@@ -211,7 +211,7 @@ export default function Header() {
               <div style={{ flex: 1, height: "1px", background: "#1E2235" }} />
             </div>
 
-            <button onClick={() => signIn("github", { callbackUrl: "/dashboard" })} className="github-btn-header" style={{
+            <button onClick={() => signIn("github", { callbackUrl: "/studio" })} className="github-btn-header" style={{
               width: "100%", padding: "12px 24px", background: "#161b22", border: "1px solid #30363d",
               borderRadius: "10px", color: "white", display: "flex", alignItems: "center", justifyContent: "center",
               gap: "10px", fontSize: "14px", fontWeight: 600, cursor: "pointer", transition: "all 0.2s ease"

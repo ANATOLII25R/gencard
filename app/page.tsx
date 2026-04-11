@@ -38,9 +38,9 @@ export default function HomePage() {
       <Features />
 
       {/* Testimonials */}
-      <section style={{ padding: "120px 24px", background: "var(--bg-primary)" }}>
-        <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "64px" }}>
+      <section className="landing-section" style={{ background: "var(--bg-primary)" }}>
+        <div className="landing-container--narrow">
+          <div style={{ textAlign: "center" }} className="landing-section-head">
             <h2 style={{
               fontSize: "clamp(28px, 4vw, 44px)",
               fontWeight: 800,
@@ -55,13 +55,9 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-            gap: "24px",
-          }}>
+          <div className="landing-testimonials-grid">
             {TESTIMONIALS.map((t, i) => (
-              <div key={i} className="glass card-hover" style={{ borderRadius: "16px", padding: "28px" }}>
+              <div key={i} className="glass card-hover" style={{ borderRadius: "16px", padding: "clamp(20px, 4vw, 28px)" }}>
                 <Quote size={28} style={{ color: "var(--border-light)", marginBottom: "16px" }} />
                 <p style={{ fontSize: "15px", color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: "24px" }}>
                   &ldquo;{t.text}&rdquo;
@@ -89,19 +85,21 @@ export default function HomePage() {
       <PricingSection />
 
       {/* Final CTA */}
-      <section style={{
-        padding: "120px 24px",
-        background: "var(--bg-primary)",
-        textAlign: "center",
-        position: "relative",
-        overflow: "hidden",
-      }}>
+      <section
+        className="landing-section"
+        style={{
+          background: "var(--bg-primary)",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
         <div style={{
           position: "absolute", inset: 0,
           background: "radial-gradient(ellipse at center, rgba(124,58,237,0.1) 0%, transparent 70%)",
           pointerEvents: "none",
         }} />
-        <div style={{ position: "relative", zIndex: 1, maxWidth: "700px", margin: "0 auto" }}>
+        <div style={{ position: "relative", zIndex: 1, maxWidth: "700px", margin: "0 auto", padding: `0 var(--landing-pad-x)` }}>
           <h2 style={{
             fontSize: "clamp(32px, 5vw, 56px)",
             fontWeight: 900,
@@ -112,10 +110,10 @@ export default function HomePage() {
             Pronto a creare<br />
             <span className="gradient-text">volantini straordinari?</span>
           </h2>
-          <p style={{ fontSize: "18px", color: "var(--text-secondary)", marginBottom: "40px" }}>
+          <p className="landing-cta-sub" style={{ color: "var(--text-secondary)", marginBottom: "40px" }}>
             Inizia gratis oggi. Nessuna carta di credito richiesta.
           </p>
-          <Link href="/accedi" className="btn-primary" style={{ padding: "16px 40px", fontSize: "18px" }}>
+          <Link href="/accedi" className="btn-primary" style={{ padding: "clamp(12px, 3vw, 16px) clamp(24px, 6vw, 40px)", fontSize: "clamp(15px, 3.5vw, 18px)" }}>
             Inizia Gratis Ora <ArrowRight size={20} />
           </Link>
         </div>

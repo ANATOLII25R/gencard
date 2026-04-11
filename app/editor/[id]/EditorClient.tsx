@@ -132,9 +132,9 @@ export default function EditorClient({ project }: EditorClientProps) {
         height: "52px", background: "var(--bg-secondary)", borderBottom: "1px solid var(--border)",
         display: "flex", alignItems: "center", padding: "0 12px", gap: "8px", flexShrink: 0,
       }}>
-        {/* Back to dashboard */}
+        {/* Back to studio */}
         <button
-          onClick={() => router.push("/dashboard")}
+          onClick={() => router.push("/studio")}
           style={{
             display: "flex", alignItems: "center", gap: "6px",
             padding: "6px 10px", borderRadius: "8px",
@@ -151,7 +151,7 @@ export default function EditorClient({ project }: EditorClientProps) {
             (e.currentTarget as HTMLElement).style.color = "var(--text-secondary)";
           }}
         >
-          <ArrowLeft size={16} /> Dashboard
+          <ArrowLeft size={16} /> Studio
         </button>
 
         <div style={{ width: "1px", height: "24px", background: "var(--border)" }} />

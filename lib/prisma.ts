@@ -4,8 +4,12 @@ import { Pool } from "pg";
 
 // Standard Node.js pg adapter - works correctly in Server Actions
 // @neondatabase/serverless is an Edge-only WebSocket driver, not for Node.js
-const DB_URL =
-  "postgresql://neondb_owner:npg_aCf6pwy5IRgr@ep-silent-star-a9xejj2y-pooler.gwc.azure.neon.tech/neondb?sslmode=require";
+const DB_URL = process.env.DATABASE_URL;
+if (!DB_URL) {
+  throw new Error(
+    "DATABASE_URL is not set. Copy .env.example to .env.local and set DATABASE_URL."
+  );
+}
 
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;

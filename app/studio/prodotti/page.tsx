@@ -18,13 +18,13 @@ const PRODUCTS = [
 
 export default function ProdottiPage() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="studio-page">
       <div>
-        <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Prodotti & Poster</h2>
+        <h2 className="studio-page-title" style={{ fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Prodotti & Poster</h2>
         <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Tipi di contenuto che puoi creare con GenCard.</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
+      <div className="studio-grid-cards-lg">
         {PRODUCTS.map((p, i) => (
           <div key={i} style={{ background: DS.card, border: `1px solid ${DS.border}`, borderRadius: "14px", padding: "24px", display: "flex", flexDirection: "column", gap: "16px", transition: "all 0.2s" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = DS.accent; e.currentTarget.style.transform = "translateY(-2px)"; }}

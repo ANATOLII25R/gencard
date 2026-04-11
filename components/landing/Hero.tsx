@@ -16,11 +16,7 @@ export default function Hero() {
   useEffect(() => setMounted(true), []);
 
   return (
-    <section style={{
-      minHeight: "100vh", position: "relative", overflow: "hidden",
-      display: "flex", alignItems: "center", justifyContent: "center",
-      paddingTop: "80px",
-    }}>
+    <section className="landing-hero">
       {/* Background blobs */}
       <div style={{
         position: "absolute", top: "-200px", left: "-100px",
@@ -37,25 +33,26 @@ export default function Hero() {
 
       {/* Floating emojis */}
       {mounted && FLOATING_ELEMENTS.map((el, i) => (
-        <div key={i} style={{
-          position: "absolute",
-          top: el.top, left: el.left, right: (el as { right?: string }).right,
-          fontSize: "28px",
-          opacity: 0.4,
-          animation: `float 3s ease-in-out infinite`,
-          animationDelay: el.delay,
-          zIndex: 1,
-          pointerEvents: "none",
-        }}>
+        <div
+          key={i}
+          className={i >= 2 ? "landing-float-hide-sm" : undefined}
+          style={{
+            position: "absolute",
+            top: el.top, left: el.left, right: (el as { right?: string }).right,
+            fontSize: "clamp(22px, 5vw, 28px)",
+            opacity: 0.4,
+            animation: `float 3s ease-in-out infinite`,
+            animationDelay: el.delay,
+            zIndex: 1,
+            pointerEvents: "none",
+          }}
+        >
           {el.emoji}
         </div>
       ))}
 
       {/* Content */}
-      <div style={{
-        maxWidth: "900px", margin: "0 auto", padding: "0 24px",
-        textAlign: "center", position: "relative", zIndex: 2,
-      }}>
+      <div className="landing-hero-inner">
         {/* Badge */}
         <div style={{
           display: "inline-flex", alignItems: "center", gap: "8px",
@@ -137,7 +134,7 @@ export default function Hero() {
 
         {/* Preview mockup */}
         <div id="demo" style={{
-          marginTop: "80px", borderRadius: "20px", overflow: "hidden",
+          marginTop: "clamp(40px, 10vw, 80px)", borderRadius: "20px", overflow: "hidden",
           border: "1px solid var(--border)",
           boxShadow: "0 40px 100px rgba(0,0,0,0.5), 0 0 60px rgba(124,58,237,0.1)",
           position: "relative",
@@ -156,22 +153,24 @@ export default function Hero() {
               GenCard — Editor
             </span>
           </div>
-          <div style={{
-            background: "var(--bg-card)",
-            height: "420px",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            flexDirection: "column", gap: "16px",
-            position: "relative", overflow: "hidden",
-          }}>
+          <div
+            className="landing-hero-mockup-panel"
+            style={{
+              background: "var(--bg-card)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexDirection: "column", gap: "16px",
+              position: "relative", overflow: "hidden",
+            }}
+          >
             {/* Fake canvas */}
             <div style={{
-              width: "280px", height: "360px",
+              width: "min(280px, 86vw)", height: "min(360px, 48vh)",
               background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
               borderRadius: "12px",
               boxShadow: "0 20px 60px rgba(0,0,0,0.4)",
               display: "flex", flexDirection: "column",
               alignItems: "center", justifyContent: "center",
-              gap: "12px", padding: "30px",
+              gap: "12px", padding: "clamp(16px, 4vw, 30px)",
               position: "relative",
             }}>
               <div style={{
@@ -198,10 +197,7 @@ export default function Hero() {
               </div>
             </div>
             {/* Floating tools */}
-            <div style={{
-              position: "absolute", right: "20px", top: "50%", transform: "translateY(-50%)",
-              display: "flex", flexDirection: "column", gap: "8px",
-            }}>
+            <div className="landing-hero-tools">
               {["T", "⬜", "⭕", "🖼️", "🎨"].map((tool, i) => (
                 <div key={i} style={{
                   width: "36px", height: "36px", borderRadius: "8px",

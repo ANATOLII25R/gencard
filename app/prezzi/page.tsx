@@ -18,7 +18,7 @@ export default function PrezziPage({
     <>
       <Header />
       <main style={{ paddingTop: "64px" }}>
-        <div style={{ padding: "80px 24px 40px", textAlign: "center" }}>
+        <div className="landing-section--tight" style={{ textAlign: "center", paddingBottom: "40px" }}>
           <h1 style={{
             fontSize: "clamp(36px, 6vw, 64px)",
             fontWeight: 900,
@@ -28,17 +28,17 @@ export default function PrezziPage({
           }}>
             Scegli il tuo <span className="gradient-text">piano</span>
           </h1>
-          <p style={{ fontSize: "18px", color: "var(--text-secondary)", maxWidth: "500px", margin: "0 auto" }}>
+          <p style={{ fontSize: "clamp(15px, 3vw, 18px)", color: "var(--text-secondary)", maxWidth: "500px", margin: "0 auto", padding: `0 var(--landing-pad-x)` }}>
             Tutti i piani includono l&apos;accesso all&apos;editor canvas. Nessuna sorpresa in fattura.
           </p>
         </div>
         <PricingSection />
 
         {/* FAQ */}
-        <section style={{ padding: "80px 24px", maxWidth: "800px", margin: "0 auto" }}>
+        <section className="landing-section--tight" style={{ maxWidth: "800px", margin: "0 auto" }}>
           <h2 style={{
-            fontSize: "32px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans',sans-serif",
-            letterSpacing: "-0.02em", marginBottom: "40px", textAlign: "center",
+            fontSize: "clamp(24px, 5vw, 32px)", fontWeight: 800, fontFamily: "'Plus Jakarta Sans',sans-serif",
+            letterSpacing: "-0.02em", marginBottom: "clamp(24px, 5vw, 40px)", textAlign: "center",
           }}>
             Domande Frequenti
           </h2>
@@ -61,7 +61,7 @@ export default function PrezziPage({
             },
           ].map((faq, i) => (
             <div key={i} style={{
-              padding: "20px 24px", borderRadius: "12px",
+              padding: "clamp(16px, 3vw, 20px) var(--landing-pad-x)", borderRadius: "12px",
               background: "var(--bg-card)", border: "1px solid var(--border)",
               marginBottom: "12px",
             }}>

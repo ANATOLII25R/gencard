@@ -17,13 +17,13 @@ const INTEGRATIONS = [
 
 export default function IntegrazioniPage() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="studio-page">
       <div>
-        <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Integrazioni API</h2>
+        <h2 className="studio-page-title" style={{ fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Integrazioni API</h2>
         <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Connetti i tuoi servizi preferiti a GenCard.</p>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "16px" }}>
+      <div className="studio-grid-integ">
         {INTEGRATIONS.map((int, i) => (
           <div key={i} style={{ background: DS.card, border: `1px solid ${int.status ? "rgba(16,185,129,0.3)" : DS.border}`, borderRadius: "14px", padding: "20px", display: "flex", flexDirection: "column", gap: "16px", transition: "all 0.2s" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = DS.accent; }}

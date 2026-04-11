@@ -32,14 +32,14 @@ export default async function AccountPage() {
         display: "flex", alignItems: "center", gap: "16px",
         borderBottom: "1px solid var(--border)", marginBottom: "40px",
       }}>
-        <Link href="/dashboard" style={{
+        <Link href="/studio" style={{
           display: "flex", alignItems: "center", gap: "6px",
           color: "var(--text-secondary)", textDecoration: "none",
           fontSize: "14px", padding: "6px 12px", borderRadius: "8px",
           background: "var(--bg-card)", border: "1px solid var(--border)",
           transition: "all 0.2s",
         }}>
-          <ArrowLeft size={15} /> Dashboard
+          <ArrowLeft size={15} /> Studio
         </Link>
         <h1 style={{ fontSize: "22px", fontWeight: 800, fontFamily: "'Plus Jakarta Sans',sans-serif" }}>
           Il mio Account

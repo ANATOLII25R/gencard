@@ -47,12 +47,12 @@ export default function DesignClient({ projects, plan }: Props) {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="studio-page">
 
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div className="studio-page-header" style={{ alignItems: "center" }}>
         <div>
-          <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>I miei Design</h2>
+          <h2 className="studio-page-title" style={{ fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>I miei Design</h2>
           <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>{projects.length} progetti salvati</p>
         </div>
         <div style={{ display: "flex", gap: "8px" }}>
@@ -73,18 +73,18 @@ export default function DesignClient({ projects, plan }: Props) {
           </div>
           <h3 style={{ fontSize: "18px", fontWeight: 700, color: "#fff", margin: "0 0 8px" }}>Nessun design ancora</h3>
           <p style={{ color: DS.textSec, maxWidth: "360px", margin: "0 auto 24px", fontSize: "14px" }}>Crea il tuo primo progetto o scegli un template per iniziare.</p>
-          <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
+          <div className="studio-empty-actions">
             <button onClick={createProject} style={{ background: `linear-gradient(135deg, ${DS.accent}, #8b5cf6)`, color: "#fff", border: "none", padding: "10px 24px", borderRadius: "8px", fontWeight: 700, cursor: "pointer", fontSize: "14px", display: "flex", alignItems: "center", gap: "8px" }}>
               <Plus size={16} /> Crea Design
             </button>
-            <button onClick={() => router.push("/dashboard/template")} style={{ background: DS.card, color: DS.textSec, border: `1px solid ${DS.border}`, padding: "10px 24px", borderRadius: "8px", fontWeight: 600, cursor: "pointer", fontSize: "14px" }}>
+            <button onClick={() => router.push("/studio/template")} style={{ background: DS.card, color: DS.textSec, border: `1px solid ${DS.border}`, padding: "10px 24px", borderRadius: "8px", fontWeight: 600, cursor: "pointer", fontSize: "14px" }}>
               Scegli Template
             </button>
           </div>
         </div>
       ) : viewMode === "grid" ? (
         // Grid view
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: "20px" }}>
+        <div className="studio-grid-cards-md">
           {projects.map(proj => (
             <div key={proj.id} style={{ borderRadius: "14px", overflow: "hidden", background: DS.card, border: `1px solid ${DS.border}`, transition: "all 0.2s" }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = DS.accent; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 12px 30px rgba(0,0,0,0.4)"; }}
@@ -121,11 +121,11 @@ export default function DesignClient({ projects, plan }: Props) {
       ) : (
         // List view
         <div style={{ background: DS.card, border: `1px solid ${DS.border}`, borderRadius: "14px", overflow: "hidden" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 160px 80px", padding: "12px 20px", background: DS.bg, borderBottom: `1px solid ${DS.border}`, fontSize: "11px", fontWeight: 700, color: DS.textMut, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+          <div className="studio-design-list-head" style={{ padding: "12px 20px", background: DS.bg, borderBottom: `1px solid ${DS.border}`, fontSize: "11px", fontWeight: 700, color: DS.textMut, textTransform: "uppercase", letterSpacing: "0.06em" }}>
             <span>Nome</span><span>Modificato</span><span>Azioni</span>
           </div>
           {projects.map(p => (
-            <div key={p.id} style={{ display: "grid", gridTemplateColumns: "1fr 160px 80px", padding: "14px 20px", borderBottom: `1px solid ${DS.border}`, alignItems: "center", transition: "background 0.15s", cursor: "pointer" }}
+            <div key={p.id} className="studio-design-list-row" style={{ padding: "14px 20px", borderBottom: `1px solid ${DS.border}`, transition: "background 0.15s", cursor: "pointer" }}
               onMouseEnter={e => (e.currentTarget.style.background = DS.cardHov)}
               onMouseLeave={e => (e.currentTarget.style.background = "transparent")}>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>

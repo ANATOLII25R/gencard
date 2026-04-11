@@ -28,11 +28,11 @@ export default function UploadPage() {
     { text: DS.orange, bg: "rgba(245,158,11,0.1)" };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="studio-page">
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div className="studio-upload-header">
         <div>
-          <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Upload & Risorse</h2>
+          <h2 className="studio-page-title" style={{ fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Upload & Risorse</h2>
           <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Logo, immagini, icone e font personali.</p>
         </div>
         <button style={{ background: `linear-gradient(135deg,${DS.accent},#8b5cf6)`, color: "#fff", border: "none", padding: "9px 20px", borderRadius: "8px", fontWeight: 700, cursor: "pointer", fontSize: "13px", display: "flex", alignItems: "center", gap: "8px" }}>
@@ -60,6 +60,8 @@ export default function UploadPage() {
 
       {/* Assets Table */}
       <div style={{ background: DS.card, border: `1px solid ${DS.border}`, borderRadius: "14px", overflow: "hidden" }}>
+        <div className="studio-table-scroll" style={{ maxWidth: "100%" }}>
+          <div className="studio-asset-grid">
         <div style={{ display: "grid", gridTemplateColumns: "48px 1fr 100px 140px 100px", padding: "12px 16px", background: DS.bg, borderBottom: `1px solid ${DS.border}`, fontSize: "11px", fontWeight: 700, color: DS.textMut, textTransform: "uppercase", letterSpacing: "0.06em" }}>
           <span /><span>Nome</span><span>Tipo</span><span>Caricato</span><span>Dimensione</span>
         </div>
@@ -79,6 +81,8 @@ export default function UploadPage() {
             </div>
           );
         })}
+          </div>
+        </div>
       </div>
     </div>
   );

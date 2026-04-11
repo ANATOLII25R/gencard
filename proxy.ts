@@ -3,10 +3,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-const PROTECTED_PATHS = ["/dashboard", "/editor", "/account"];
+const PROTECTED_PATHS = ["/studio", "/editor", "/account"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  // Legacy URLs dopo il rename dashboard → studio (prima del check auth)
+  if (pathname === "/dashboard" || pathname.startsWith("/dashboard/")) {
+    const url = req.nextUrl.clone();
+    url.pathname = "/studio" + pathname.slice("/dashboard".length);
+    return NextResponse.redirect(url, 308);
+  }
+
   const isProtected = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
 
   if (!isProtected) return NextResponse.next();

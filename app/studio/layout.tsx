@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { unstable_cache } from "next/cache";
-import DashboardShell from "./DashboardShell";
+import StudioShell from "./StudioShell";
 import type { PlanType } from "@/types";
 
 const getProjectCount = unstable_cache(
@@ -17,7 +17,7 @@ const getUserSubscription = unstable_cache(
   { revalidate: false, tags: ["subscription"] }
 );
 
-export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default async function StudioLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session?.user?.id) redirect("/");
 
@@ -29,8 +29,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const plan = (subscription?.plan ?? "FREE") as PlanType;
 
   return (
-    <DashboardShell user={session.user} plan={plan} projectCount={projectCount}>
+    <StudioShell user={session.user} plan={plan} projectCount={projectCount}>
       {children}
-    </DashboardShell>
+    </StudioShell>
   );
 }

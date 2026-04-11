@@ -16,7 +16,7 @@ export default async function EditorPage({
     where: { id, userId: session.user.id },
   });
 
-  if (!project) redirect("/dashboard");
+  if (!project) redirect("/studio");
 
   return (
     <EditorClient

@@ -17,18 +17,12 @@ const Github = ({ size = 24 }: { size?: number }) => (
 
 export default function Footer() {
   return (
-    <footer style={{
+    <footer className="landing-footer" style={{
       background: "var(--bg-secondary)",
       borderTop: "1px solid var(--border)",
-      padding: "64px 24px 32px",
     }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "2fr 1fr 1fr 1fr",
-          gap: "48px",
-          marginBottom: "48px",
-        }}>
+      <div className="landing-container">
+        <div className="landing-footer-grid">
           {/* Brand */}
           <div>
             <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none", marginBottom: "16px" }}>
@@ -142,18 +136,6 @@ export default function Footer() {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 768px) {
-          footer > div > div:first-child {
-            grid-template-columns: 1fr 1fr !important;
-          }
-        }
-        @media (max-width: 480px) {
-          footer > div > div:first-child {
-            grid-template-columns: 1fr !important;
-          }
-        }
-      `}</style>
     </footer>
   );
 }

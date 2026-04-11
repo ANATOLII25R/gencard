@@ -44,7 +44,7 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
   });
 
   // Invalida il cache dashboard dopo il salvataggio
-  revalidateTag("projects");
+  revalidateTag("projects", "max");
 
   return NextResponse.json({ success: true, updated: result.count });
 }
@@ -62,7 +62,7 @@ export async function DELETE(_req: NextRequest, { params }: RouteContext) {
   });
 
   // Invalida il cache dashboard dopo la cancellazione
-  revalidateTag("projects");
+  revalidateTag("projects", "max");
 
   return NextResponse.json({ success: true });
 }

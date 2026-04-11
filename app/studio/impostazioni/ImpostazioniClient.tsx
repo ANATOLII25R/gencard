@@ -1,6 +1,6 @@
 "use client";
 import { Crown, CreditCard, Link2, Shield, User as UserIcon, Check } from "lucide-react";
-import { useDashboard } from "../DashboardContext";
+import type { PlanType } from "@/types";
 
 const DS = {
   bg: "#080B12", card: "#111827", border: "#1E293B",
@@ -15,13 +15,16 @@ const PLAN_DESC: Record<string, string> = {
   BUSINESS: "Tutto incluso + teams",
 };
 
-export default function ImpostazioniPage() {
-  const { user, plan } = useDashboard();
+interface Props {
+  user: { id?: string; name?: string | null; email?: string | null };
+  plan: PlanType;
+}
 
+export default function ImpostazioniClient({ user, plan }: Props) {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="studio-page">
       <div>
-        <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Impostazioni</h2>
+        <h2 className="studio-page-title" style={{ fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Impostazioni</h2>
         <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Gestisci il tuo account, abbonamento e integrazioni.</p>
       </div>
 
@@ -42,7 +45,7 @@ export default function ImpostazioniPage() {
             </div>
           </div>
           {[{ label: "Nome", value: user.name || "—" }, { label: "Email", value: user.email || "—" }].map((f, i) => (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "120px 1fr", alignItems: "center", gap: "16px" }}>
+            <div key={i} className="studio-form-row">
               <label style={{ fontSize: "13px", color: DS.textSec, fontWeight: 500 }}>{f.label}</label>
               <input defaultValue={f.value} style={{ background: DS.bg, border: `1px solid ${DS.border}`, borderRadius: "8px", padding: "9px 14px", color: "#fff", fontSize: "13px", outline: "none" }} />
             </div>
@@ -56,7 +59,7 @@ export default function ImpostazioniPage() {
           <CreditCard size={15} color={DS.accent} />
           <span style={{ fontSize: "14px", fontWeight: 700, color: "#fff" }}>Abbonamento</span>
         </div>
-        <div style={{ padding: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div className="studio-plan-row" style={{ padding: "20px" }}>
           <div>
             <div style={{ fontSize: "24px", fontWeight: 800, color: "#fff", letterSpacing: "-0.02em" }}>{PLAN_LABEL[plan]}</div>
             <div style={{ fontSize: "13px", color: DS.textSec, marginTop: "4px" }}>{PLAN_DESC[plan]}</div>
@@ -103,7 +106,7 @@ export default function ImpostazioniPage() {
         </div>
         <div style={{ padding: "20px", display: "flex", flexDirection: "column", gap: "12px" }}>
           {[{ label: "Password attuale" }, { label: "Nuova password" }, { label: "Conferma password" }].map((f, i) => (
-            <div key={i} style={{ display: "grid", gridTemplateColumns: "160px 1fr", alignItems: "center", gap: "16px" }}>
+            <div key={i} className="studio-form-row-wide">
               <label style={{ fontSize: "13px", color: DS.textSec, fontWeight: 500 }}>{f.label}</label>
               <input type="password" placeholder="••••••••" style={{ background: DS.bg, border: `1px solid ${DS.border}`, borderRadius: "8px", padding: "9px 14px", color: "#fff", fontSize: "13px", outline: "none" }} />
             </div>
@@ -117,7 +120,7 @@ export default function ImpostazioniPage() {
       </div>
 
       {/* Danger Zone */}
-      <div style={{ background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: "14px", padding: "20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <div className="studio-danger-row" style={{ background: "rgba(239,68,68,0.05)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: "14px", padding: "20px" }}>
         <div>
           <div style={{ fontSize: "14px", fontWeight: 700, color: DS.red }}>Elimina Account</div>
           <div style={{ fontSize: "12px", color: DS.textSec, marginTop: "2px" }}>Questa azione è irreversibile e cancellerà tutti i dati.</div>

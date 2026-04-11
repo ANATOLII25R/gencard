@@ -60,10 +60,10 @@ const FEATURES = [
 
 export default function Features() {
   return (
-    <section id="funzionalita" style={{ padding: "120px 24px", background: "var(--bg-primary)" }}>
-      <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
+    <section id="funzionalita" className="landing-section" style={{ background: "var(--bg-primary)" }}>
+      <div className="landing-container">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "80px" }}>
+        <div style={{ textAlign: "center" }} className="landing-features-head">
           <div style={{
             display: "inline-flex", alignItems: "center", gap: "8px",
             background: "rgba(37,99,235,0.15)", border: "1px solid rgba(37,99,235,0.3)",
@@ -83,21 +83,17 @@ export default function Features() {
             Tutto ciò che ti serve<br />
             <span className="gradient-text">in un solo posto</span>
           </h2>
-          <p style={{ fontSize: "18px", color: "var(--text-secondary)", maxWidth: "500px", margin: "0 auto" }}>
+          <p style={{ fontSize: "clamp(15px, 3vw, 18px)", color: "var(--text-secondary)", maxWidth: "500px", margin: "0 auto", padding: `0 var(--landing-pad-x)` }}>
             Strumenti professionali pensati per chi non ha tempo da perdere.
           </p>
         </div>
 
         {/* Features grid */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
-          gap: "20px",
-        }}>
+        <div className="landing-features-grid">
           {FEATURES.map((feature, i) => (
             <div key={i} className="glass card-hover" style={{
               borderRadius: "16px",
-              padding: "28px",
+              padding: "clamp(20px, 4vw, 28px)",
               display: "flex", flexDirection: "column", gap: "14px",
               cursor: "default",
             }}>

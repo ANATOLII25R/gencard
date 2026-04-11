@@ -1,14 +1,13 @@
+"use client";
 import { Users } from "lucide-react";
 
-const DS = {
-  card: "#111827", border: "#1E293B", orange: "#F59E0B", textSec: "#94A3B8",
-};
+const DS = { card: "#111827", border: "#1E293B", orange: "#F59E0B", textSec: "#94A3B8" };
 
-export default function TeamPage() {
+export default function TeamClient() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="studio-page">
       <div>
-        <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Team & Utenti</h2>
+        <h2 className="studio-page-title" style={{ fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Team & Utenti</h2>
         <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Collaborazione e gestione team disponibile nel piano Business.</p>
       </div>
       <div style={{ background: DS.card, border: `1px solid ${DS.border}`, borderRadius: "16px", padding: "80px 20px", textAlign: "center" }}>

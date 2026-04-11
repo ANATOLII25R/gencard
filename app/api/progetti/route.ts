@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
   });
 
   // Invalida il cache della dashboard
-  revalidateTag("projects");
+  revalidateTag("projects", "max");
 
   return NextResponse.json(project, { status: 201 });
 }

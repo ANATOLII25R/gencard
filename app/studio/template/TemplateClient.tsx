@@ -40,9 +40,9 @@ export default function TemplateClient() {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+    <div className="studio-page">
       <div>
-        <h2 style={{ fontSize: "22px", fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Template Pronti</h2>
+        <h2 className="studio-page-title" style={{ fontWeight: 800, color: "#fff", margin: "0 0 4px", letterSpacing: "-0.01em" }}>Template Pronti</h2>
         <p style={{ color: DS.textSec, fontSize: "13px", margin: 0 }}>Scegli un punto di partenza e personalizzalo con l&apos;editor.</p>
       </div>
 
@@ -56,7 +56,7 @@ export default function TemplateClient() {
       </div>
 
       {/* Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "20px" }}>
+      <div className="studio-grid-cards-sm">
         {filtered.map((tpl, i) => (
           <div key={i} onClick={() => !creating && createFromTemplate(tpl)} style={{ borderRadius: "14px", background: DS.card, border: `1px solid ${DS.border}`, cursor: creating ? "wait" : "pointer", overflow: "hidden", transition: "all 0.2s" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = DS.accent; e.currentTarget.style.transform = "translateY(-3px)"; e.currentTarget.style.boxShadow = "0 12px 30px rgba(0,0,0,0.4)"; }}

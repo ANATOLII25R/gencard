@@ -13,10 +13,10 @@ export default function PricingSection() {
   const router = useRouter();
 
   return (
-    <section id="prezzi" style={{ padding: "120px 24px", background: "var(--bg-secondary)" }}>
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+    <section id="prezzi" className="landing-section" style={{ background: "var(--bg-secondary)" }}>
+      <div className="landing-container--narrow">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "64px" }}>
+        <div style={{ textAlign: "center" }} className="landing-section-head">
           <h2 style={{
             fontSize: "clamp(32px, 5vw, 52px)",
             fontWeight: 800,
@@ -26,33 +26,30 @@ export default function PricingSection() {
           }}>
             Prezzi <span className="gradient-text">Semplici e Trasparenti</span>
           </h2>
-          <p style={{ fontSize: "18px", color: "var(--text-secondary)" }}>
+          <p style={{ fontSize: "clamp(15px, 3vw, 18px)", color: "var(--text-secondary)", padding: `0 var(--landing-pad-x)` }}>
             Inizia gratis. Scala quando sei pronto.
           </p>
         </div>
 
         {/* Cards */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: "24px",
-          alignItems: "start",
-        }}>
+        <div className="landing-pricing-grid">
           {Object.entries(PLANS).map(([key, plan]) => {
             const meta = PLAN_META[key as keyof typeof PLAN_META];
             const isPro = key === "PRO";
 
             return (
-              <div key={key} style={{
+              <div
+                key={key}
+                className={isPro ? "landing-pricing-card--pro" : undefined}
+                style={{
                 borderRadius: "20px",
-                padding: "32px",
+                padding: "clamp(22px, 4vw, 32px)",
                 position: "relative",
                 border: isPro ? "2px solid var(--accent)" : "1px solid var(--border)",
                 background: isPro
                   ? "linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(37,99,235,0.05) 100%)"
                   : "var(--bg-card)",
                 boxShadow: isPro ? "0 20px 60px rgba(124,58,237,0.2)" : "none",
-                transform: isPro ? "scale(1.03)" : "none",
                 transition: "all 0.3s ease",
               }}
                 onMouseEnter={(e) => { if (!isPro) (e.currentTarget as HTMLElement).style.borderColor = "var(--border-light)"; }}
