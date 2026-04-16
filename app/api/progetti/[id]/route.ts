@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { revalidateTag } from "next/cache";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -34,19 +33,21 @@ export async function PATCH(req: NextRequest, { params }: RouteContext) {
   const { id } = await params;
   const body = await req.json();
 
-  const result = await prisma.project.updateMany({
-    where: { id, userId: session.user.id },
+  const project = await prisma.project.update({
+    where: { id },
     data: {
       ...(body.name !== undefined && { name: body.name }),
       ...(body.canvasData !== undefined && { canvasData: body.canvasData }),
       ...(body.thumbnail !== undefined && { thumbnail: body.thumbnail }),
+      ...(body.status !== undefined && { status: body.status }),
     },
   });
 
-  // Invalida il cache dashboard dopo il salvataggio
-  revalidateTag("projects", "max");
+  if (project.userId !== session.user.id) {
+    return NextResponse.json({ error: "Non autorizzato" }, { status: 403 });
+  }
 
-  return NextResponse.json({ success: true, updated: result.count });
+  return NextResponse.json(project);
 }
 
 // DELETE /api/progetti/[id]
@@ -57,12 +58,17 @@ export async function DELETE(_req: NextRequest, { params }: RouteContext) {
   }
 
   const { id } = await params;
-  await prisma.project.deleteMany({
+  const project = await prisma.project.findFirst({
     where: { id, userId: session.user.id },
   });
 
-  // Invalida il cache dashboard dopo la cancellazione
-  revalidateTag("projects", "max");
+  if (!project) {
+    return NextResponse.json({ error: "Progetto non trovato" }, { status: 404 });
+  }
+
+  await prisma.project.delete({
+    where: { id },
+  });
 
   return NextResponse.json({ success: true });
 }

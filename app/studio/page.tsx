@@ -16,5 +16,18 @@ export default async function PanoramicaPage() {
   if (!session?.user?.id) return null;
   const recentProjects = await getRecentProjects(session.user.id);
   const firstName = session.user.name?.split(" ")[0] || "Designer";
-  return <PanoramicaClient recentProjects={recentProjects} firstName={firstName} />;
+
+  const [completedCount, inProgressCount] = await Promise.all([
+    prisma.project.count({ where: { userId: session.user.id, status: "COMPLETED" } }),
+    prisma.project.count({ where: { userId: session.user.id, status: "IN_PROGRESS" } }),
+  ]);
+
+  return (
+    <PanoramicaClient 
+      recentProjects={recentProjects} 
+      firstName={firstName}
+      completedCount={completedCount}
+      inProgressCount={inProgressCount}
+    />
+  );
 }

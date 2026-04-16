@@ -5,11 +5,12 @@ import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Plus, LayoutDashboard, Zap, LogOut, Settings, Crown,
-  Folder, Layers, Search, UploadCloud, Users, Bell,
-  Package, Link2, ChevronRight, ChevronLeft, Globe, MoreHorizontal, Menu, X,
+  Folder, Search, UploadCloud, Users, Bell,
+  Link2, ChevronRight, ChevronLeft, Globe, MoreHorizontal, Menu, X, Sparkles, TestTube,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { StudioContext } from "./StudioContext";
+import NewDesignModal from "./NewDesignModal";
 import type { LucideIcon } from "lucide-react";
 import type { PlanType } from "@/types";
 
@@ -46,6 +47,7 @@ export default function StudioShell({ user, plan, projectCount, children }: Shel
   const [searchQuery, setSearchQuery] = useState("");
   const [creating, setCreating] = useState(false);
   const [searchExpanded, setSearchExpanded] = useState(false);
+  const [newDesignModalOpen, setNewDesignModalOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -80,8 +82,7 @@ export default function StudioShell({ user, plan, projectCount, children }: Shel
       items: [
         { href: "/studio",          Icon: LayoutDashboard, label: "Studio",         badge: null,                                      badgeType: "number" },
         { href: "/studio/design",   Icon: Folder,          label: "I Miei Design",     badge: projectCount > 0 ? String(projectCount) : null, badgeType: "number" },
-        { href: "/studio/template", Icon: Layers,          label: "Template",          badge: "8",                                       badgeType: "number" },
-        { href: "/studio/prodotti", Icon: Package,         label: "Prodotti / Poster", badge: "Nuovo",                                   badgeType: "new"    },
+        { href: "/studio/ai-genera", Icon: Sparkles,       label: "Genera con AI",     badge: "Beta",                                   badgeType: "new"    },
       ],
     },
     {
@@ -134,6 +135,24 @@ export default function StudioShell({ user, plan, projectCount, children }: Shel
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
+
+      <NewDesignModal
+        open={newDesignModalOpen}
+        onClose={() => setNewDesignModalOpen(false)}
+        onSelectTemplate={async (template) => {
+          setNewDesignModalOpen(false);
+          if (isAtLimit) { router.push("/prezzi"); return; }
+          setCreating(true);
+          const res = await fetch("/api/progetti", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: template.name, width: 1920, height: 1080 }),
+          });
+          const proj = await res.json();
+          setCreating(false);
+          if (proj.id) router.push(`/editor/${proj.id}`);
+        }}
+      />
 
       {/* ── SIDEBAR ─────────────────────────────────────────── */}
       <aside
@@ -189,138 +208,216 @@ export default function StudioShell({ user, plan, projectCount, children }: Shel
           )}
         </div>
 
-        {/* Search */}
-        <div style={{ padding: "14px 12px 0", position: "relative" }}>
-          {/* Expanded search overlay on page (when sidebar closed) */}
-          {searchExpanded && !showLabels && (
+        {/* Search & Nuovo Design Section */}
+        <div style={{ padding: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
+          {/* Expanded sidebar: full search bar + Nuovo Design button */}
+          {showLabels && (
             <>
-              {/* Backdrop */}
-              <div 
-                onClick={() => { setSearchExpanded(false); setSearchQuery(""); }}
+              {/* Search Bar */}
+              <div
                 style={{
-                  position: "fixed",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: "rgba(0,0,0,0.5)",
-                  zIndex: 100,
-                }}
-              />
-              {/* Search box floating on page */}
-              <div 
-                style={{
-                  position: "fixed",
-                  top: "80px",
-                  left: "90px",
-                  zIndex: 101,
                   display: "flex",
                   alignItems: "center",
-                  gap: "12px",
-                  background: DS.card,
+                  gap: "8px",
+                  background: "rgba(255,255,255,0.04)",
                   border: `1px solid ${DS.border}`,
-                  borderRadius: "12px",
-                  padding: "12px 16px",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-                  minWidth: "320px"
+                  borderRadius: "8px",
+                  padding: "8px 12px",
                 }}
               >
-                <Search size={18} color={DS.accent} />
-                <input 
-                  ref={searchInputRef}
-                  autoFocus
+                <Search size={13} color={DS.textMut} />
+                <input
                   placeholder="Cerca design, template..."
                   value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   style={{
                     background: "transparent",
                     border: "none",
                     outline: "none",
-                    color: DS.textPri,
-                    fontSize: "14px",
-                    width: "100%"
+                    color: DS.textSec,
+                    fontSize: "12px",
+                    width: "100%",
                   }}
                 />
-                <button 
-                  onClick={() => { setSearchExpanded(false); setSearchQuery(""); }}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    color: DS.textMut,
-                    padding: "4px",
-                    display: "flex"
-                  }}
-                >
-                  <X size={16} />
-                </button>
               </div>
+
+              {/* Nuovo Design Button */}
+              <button
+                onClick={() => setNewDesignModalOpen(true)}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                  padding: "10px 12px",
+                  color: "#fff",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  background: "linear-gradient(135deg, #6366F1, #8B5CF6)",
+                  border: "1px solid rgba(99, 102, 241, 0.5)",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  boxShadow: "0 4px 12px rgba(99, 102, 241, 0.3)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 6px 16px rgba(99, 102, 241, 0.5)";
+                  e.currentTarget.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(99, 102, 241, 0.3)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                <Plus size={16} />
+                <span>Nuovo Design</span>
+              </button>
             </>
           )}
-          
-          {/* Normal search in sidebar (when expanded) */}
-          {showLabels && (
-            <div style={{ 
-              display: "flex", 
-              alignItems: "center", 
-              gap: "8px", 
-              background: "rgba(255,255,255,0.04)", 
-              border: `1px solid ${DS.border}`, 
-              borderRadius: "8px", 
-              padding: "8px 12px"
-            }}>
-              <Search size={13} color={DS.textMut} />
-              <input 
+
+          {/* Collapsed sidebar: icon buttons */}
+          {!showLabels && (
+            <>
+              {/* Search Icon Button */}
+              <button
+                onClick={() => setSearchExpanded(true)}
+                title="Cerca"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "44px",
+                  height: "44px",
+                  padding: "0",
+                  background: "rgba(255,255,255,0.04)",
+                  border: `1px solid ${DS.border}`,
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  color: DS.textMut,
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+                  e.currentTarget.style.borderColor = DS.accent;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+                  e.currentTarget.style.borderColor = DS.border;
+                }}
+              >
+                <Search size={18} />
+              </button>
+
+              {/* Nuovo Design Icon Button */}
+              <button
+                onClick={() => setNewDesignModalOpen(true)}
+                title="Nuovo Design"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "44px",
+                  height: "44px",
+                  padding: "0",
+                  background: "linear-gradient(135deg, #6366F1, #8B5CF6)",
+                  border: "1px solid rgba(99, 102, 241, 0.5)",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  color: "#fff",
+                  boxShadow: "0 4px 12px rgba(99, 102, 241, 0.3)",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = "0 6px 16px rgba(99, 102, 241, 0.5)";
+                  e.currentTarget.style.transform = "translateY(-1px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = "0 4px 12px rgba(99, 102, 241, 0.3)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
+              >
+                <Plus size={20} />
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Search Overlay (when collapsed search expanded) */}
+        {searchExpanded && !showLabels && (
+          <>
+            <div
+              onClick={() => {
+                setSearchExpanded(false);
+                setSearchQuery("");
+              }}
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: "rgba(0,0,0,0.5)",
+                zIndex: 100,
+              }}
+            />
+            <div
+              style={{
+                position: "fixed",
+                top: "80px",
+                left: "90px",
+                zIndex: 101,
+                display: "flex",
+                alignItems: "center",
+                gap: "12px",
+                background: DS.card,
+                border: `1px solid ${DS.border}`,
+                borderRadius: "12px",
+                padding: "12px 16px",
+                boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+                minWidth: "320px",
+              }}
+            >
+              <Search size={18} color={DS.accent} />
+              <input
+                ref={searchInputRef}
+                autoFocus
                 placeholder="Cerca design, template..."
                 value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
                   background: "transparent",
                   border: "none",
                   outline: "none",
-                  color: DS.textSec,
-                  fontSize: "12px",
-                  width: "100%"
+                  color: DS.textPri,
+                  fontSize: "14px",
+                  width: "100%",
                 }}
               />
+              <button
+                onClick={() => {
+                  setSearchExpanded(false);
+                  setSearchQuery("");
+                }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: DS.textMut,
+                  padding: "4px",
+                  display: "flex",
+                }}
+              >
+                <X size={16} />
+              </button>
             </div>
-          )}
-          
-          {/* Collapsed search icon in sidebar (when closed) */}
-          {!showLabels && !searchExpanded && (
-            <div 
-              onClick={() => setSearchExpanded(true)}
-              style={{ 
-                display: "flex", 
-                alignItems: "center", 
-                justifyContent: "center",
-                gap: "8px", 
-                background: "rgba(255,255,255,0.04)", 
-                border: `1px solid ${DS.border}`, 
-                borderRadius: "8px", 
-                padding: "10px",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.08)";
-                e.currentTarget.style.borderColor = DS.accent;
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-                e.currentTarget.style.borderColor = DS.border;
-              }}
-            >
-              <Search size={16} color={DS.textMut} />
-            </div>
-          )}
-        </div>
+          </>
+        )}
 
         {/* Nav */}
         <nav style={{ flex: 1, padding: "14px 10px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "20px" }}>
+
           {navGroups.map((group, gi) => (
             <div key={gi}>
-              {showLabels && <div style={{ fontSize: "10px", fontWeight: 700, color: DS.textMut, letterSpacing: "0.1em", padding: "0 8px 6px" }}>{group.label}</div>}
               <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
                 {group.items.map(item => {
                   const active = isActive(item.href);
@@ -339,41 +436,34 @@ export default function StudioShell({ user, plan, projectCount, children }: Shel
           ))}
         </nav>
 
-        {/* User Card */}
+        {/* Mio Account Block */}
         <div style={{ borderTop: `1px solid ${DS.border}`, padding: "12px" }}>
           {showLabels ? (
-            <div style={{ background: DS.card, border: `1px solid ${DS.border}`, borderRadius: "10px", padding: "10px 12px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <div style={{ width: "34px", height: "34px", borderRadius: "50%", flexShrink: 0, background: DS.green, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "13px", fontWeight: 800, color: "#fff" }}>
-                  {(user.name?.[0] || user.email?.[0] || "U").toUpperCase()}
-                </div>
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{user.name || user.email?.split("@")[0]}</div>
-                  <div style={{ fontSize: "11px", color: DS.textMut, marginTop: "1px" }}>Piano {PLAN_LABEL[plan]}</div>
-                </div>
-                <button onClick={() => signOut({ callbackUrl: "/" })} title="Esci" style={{ background: "none", border: "none", cursor: "pointer", color: DS.textMut, display: "flex", padding: "4px", borderRadius: "4px" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = DS.red)}
-                  onMouseLeave={e => (e.currentTarget.style.color = DS.textMut)}>
-                  <MoreHorizontal size={14} />
-                </button>
+            <Link href="/studio/mio-account" onClick={closeMobileNav} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "12px", borderRadius: "10px", border: `1px solid ${DS.border}`, background: DS.card, textDecoration: "none", transition: "all 0.15s", cursor: "pointer" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = DS.accent; e.currentTarget.style.background = "rgba(99,102,241,0.1)"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = DS.border; e.currentTarget.style.background = DS.card; }}>
+              <div style={{ width: "32px", height: "32px", borderRadius: "8px", background: `linear-gradient(135deg,${DS.accent},#8b5cf6)`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", flexShrink: 0, color: "#fff" }}>
+                <TestTube size={16} />
               </div>
-              {plan === "FREE" && (
-                <div style={{ marginTop: "10px" }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px", marginBottom: "5px" }}>
-                    <span style={{ color: DS.textMut }}>Progetti usati</span>
-                    <span style={{ color: isAtLimit ? DS.red : DS.textSec, fontWeight: 700 }}>{projectCount} / 3{isAtLimit ? " — al limite!" : ""}</span>
-                  </div>
-                  <div style={{ height: "4px", background: "rgba(255,255,255,0.06)", borderRadius: "2px", overflow: "hidden" }}>
-                    <div style={{ width: `${Math.min((projectCount / 3) * 100, 100)}%`, height: "100%", background: isAtLimit ? DS.red : DS.accent, borderRadius: "2px", transition: "width 0.4s ease" }} />
-                  </div>
-                </div>
-              )}
-            </div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: "#fff" }}>Mio Account</div>
+                <div style={{ fontSize: "11px", color: DS.textMut, marginTop: "1px" }}>Test</div>
+              </div>
+            </Link>
           ) : (
-            <button onClick={() => signOut({ callbackUrl: "/" })} style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center", padding: "10px", borderRadius: "8px", border: "none", background: "transparent", color: DS.red, cursor: "pointer" }}>
-              <LogOut size={16} />
-            </button>
+            <Link href="/studio/mio-account" onClick={closeMobileNav} style={{ width: "100%", display: "flex", justifyContent: "center", alignItems: "center", padding: "10px", borderRadius: "8px", border: `1px solid ${DS.border}`, background: "transparent", color: DS.textSec, cursor: "pointer", textDecoration: "none", transition: "all 0.15s" }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = DS.accent; e.currentTarget.style.color = "#fff"; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = DS.border; e.currentTarget.style.color = DS.textSec; }}>
+              <TestTube size={16} />
+            </Link>
           )}
+
+          {/* Logout Button */}
+          <button onClick={() => signOut({ callbackUrl: "/" })} title="Esci" style={{ width: "100%", marginTop: "8px", display: "flex", justifyContent: "center", alignItems: "center", padding: "10px", borderRadius: "8px", border: `1px solid ${DS.border}`, background: "transparent", color: DS.textMut, cursor: "pointer", transition: "all 0.15s" }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = DS.red; e.currentTarget.style.color = DS.red; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = DS.border; e.currentTarget.style.color = DS.textMut; }}>
+            <LogOut size={16} />
+          </button>
         </div>
       </aside>
 
@@ -427,17 +517,6 @@ export default function StudioShell({ user, plan, projectCount, children }: Shel
             onMouseEnter={e => { e.currentTarget.style.borderColor = DS.accent; e.currentTarget.style.color = "#fff"; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = DS.border; e.currentTarget.style.color = DS.textSec; }}>
             <Bell size={16} />
-          </button>
-
-          <button
-            type="button"
-            aria-label={creating ? "Creazione in corso" : isAtLimit ? "Vai ai prezzi" : "Nuovo design"}
-            onClick={createProject}
-            disabled={creating || isAtLimit}
-            style={{ background: isAtLimit ? "transparent" : "linear-gradient(135deg,#6366F1,#8b5cf6)", border: isAtLimit ? "1px solid rgba(99,102,241,0.4)" : "none", color: "#fff", padding: "8px 14px", borderRadius: "10px", fontSize: "14px", fontWeight: 700, display: "flex", alignItems: "center", gap: "8px", cursor: isAtLimit ? "not-allowed" : "pointer", opacity: creating ? 0.7 : 1, boxShadow: isAtLimit ? "none" : "0 4px 16px rgba(99,102,241,0.35)", transition: "all 0.2s", whiteSpace: "nowrap" }}
-          >
-            {isAtLimit ? <Crown size={16} /> : <Plus size={16} />}
-            <span className="studio-topbar-btn-label">{creating ? "Creazione..." : isAtLimit ? "Aggiorna a Pro" : "Nuovo Design"}</span>
           </button>
         </div>
 

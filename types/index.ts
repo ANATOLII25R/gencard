@@ -9,6 +9,7 @@ declare module "next-auth" {
 }
 
 export type PlanType = "FREE" | "PRO" | "BUSINESS";
+export type ProjectStatus = "IN_PROGRESS" | "COMPLETED";
 
 export interface Project {
   id: string;
@@ -18,6 +19,7 @@ export interface Project {
   canvasData: string | null;
   width: number;
   height: number;
+  status: ProjectStatus;
   userId: string;
   createdAt: Date;
   updatedAt: Date;

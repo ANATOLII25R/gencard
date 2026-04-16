@@ -1,9 +1,9 @@
 "use client";
-import type { Canvas as FabricCanvas, FabricObject } from "fabric";
+import type { Canvas, FabricObject } from "fabric";
 
 interface PropertiesPanelProps {
   selectedObject: FabricObject | null;
-  canvas: FabricCanvas | null;
+  canvas: Canvas | null;
 }
 
 type AnyObj = Record<string, unknown> & {

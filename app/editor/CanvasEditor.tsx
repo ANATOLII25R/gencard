@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState, useCallback } from "react";
-import type { Canvas as FabricCanvas, FabricObject } from "fabric";
+import type { Canvas, FabricObject } from "fabric";
 
 interface CanvasEditorProps {
   canvasData: string | null;
@@ -8,7 +8,7 @@ interface CanvasEditorProps {
   height: number;
   onCanvasChange: (json: string, thumbnail: string) => void;
   onObjectSelected: (obj: FabricObject | null) => void;
-  canvasRef: React.MutableRefObject<FabricCanvas | null>;
+  canvasRef: React.MutableRefObject<Canvas | null>;
 }
 
 export default function CanvasEditor({
@@ -28,7 +28,7 @@ export default function CanvasEditor({
 
   useEffect(() => {
     if (!canvasEl.current) return;
-    let fabricCanvas: FabricCanvas;
+    let fabricCanvas: Canvas;
     let destroyed = false;
 
     const init = async () => {

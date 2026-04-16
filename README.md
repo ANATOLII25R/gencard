@@ -57,12 +57,20 @@ flyer-saas/
 │   ├── page.tsx                  ← Landing page (Hero, Funzionalità, Prezzi)
 │   ├── globals.css               ← Variabili CSS, tema, animazioni
 │   │
-│   ├── dashboard/                ← Ecosistema privato dell'utente
+│   ├── studio/                   ← Ecosistema privato dell'utente (dashboard)
 │   │   ├── page.tsx              ← Server Component (caricamento dati + cache)
-│   │   └── DashboardClient.tsx   ← Client Component (UI, tab, sidebar)
+│   │   ├── PanoramicaClient.tsx  ← Client Component (UI dashboard)
+│   │   ├── StudioShell.tsx       ← Layout con sidebar e topbar
+│   │   ├── layout.tsx            ← Studio layout con auth
+│   │   └── studio-shell.css      ← Stili dello studio
 │   │
-│   ├── editor/[id]/              ← Editor Canvas per i design
-│   │   └── page.tsx
+│   ├── editor/                   ← Editor Canvas per i design
+│   │   ├── [id]/
+│   │   │   ├── page.tsx          ← Server Component
+│   │   │   └── EditorClient.tsx  ← Client Component
+│   │   ├── CanvasEditor.tsx      ← Canvas Fabric.js (drag & drop)
+│   │   ├── Toolbar.tsx           ← Barra degli strumenti
+│   │   └── PropertiesPanel.tsx   ← Pannello proprietà oggetti
 │   │
 │   ├── accedi/                   ← Pagina di accesso (legacy)
 │   │   └── page.tsx
@@ -90,10 +98,6 @@ flyer-saas/
 │   │   ├── Pricing.tsx           ← Prezzi e abbonamenti
 │   │   └── Footer.tsx            ← Piè di pagina
 │   │
-│   └── editor/                   ← Componenti dell'editor
-│       ├── CanvasEditor.tsx      ← Canvas Fabric.js (drag & drop)
-│       └── Toolbar.tsx           ← Barra degli strumenti
-│
 ├── lib/
 │   ├── prisma.ts                 ← Prisma Client (adattatore pg)
 │   ├── auth.ts                   ← Configurazione NextAuth

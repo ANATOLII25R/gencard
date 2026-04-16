@@ -5,11 +5,11 @@ import {
   AlignLeft, AlignCenter, AlignRight, Bold, Italic, Underline,
   ChevronUp, ChevronDown, Lock,
 } from "lucide-react";
-import type { Canvas as FabricCanvas, FabricObject } from "fabric";
+import type { Canvas, FabricObject } from "fabric";
 import { useRef } from "react";
 
 interface ToolbarProps {
-  canvas: FabricCanvas | null;
+  canvas: Canvas | null;
   selectedObject: FabricObject | null;
   projectName: string;
   saving: boolean;
